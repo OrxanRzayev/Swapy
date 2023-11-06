@@ -1,0 +1,17 @@
+<div>
+    <div class="card shop-card">
+      <img *ngIf="shop.logo" [src]="shop.logo" (error)="shopLogoLoadError($event)" class="shop-card-image"/>
+      <img *ngIf="!(shop.logo)" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC-I_ZtbTLG-gsgJiY2_V5YP53FdUMs1C28w&usqp=CAU" class="shop-card-image"/>
+      <a [routerLink]="['/shops', this.shop.userId]">
+        <div class="shop-card-information">
+          <p class="shop-card-title">{{shop.shopName}}</p>
+          <p *ngIf="shop.description" class="shop-card-description">{{shop.description}}</p>
+          <div class="shop-card-group">
+            <i class="fa-solid fa-phone"></i>
+            <p class="shop-card-phoneNumber">{{shop.phoneNumber}}</p>
+          </div>
+          <p class="shop-card-adsNumber">{{shop.productCount}} ads</p>
+        </div>
+      </a>
+    </div>
+</div>

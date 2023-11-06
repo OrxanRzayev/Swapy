@@ -1,0 +1,78 @@
+/* You can add global styles to this file, and also import other style files */
+//General styles
+@import "/src/colors.scss";
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI","Segoe UI Web Regular","Segoe UI Symbol","Helvetica Neue","BBAlpha Sans","S60 Sans",Arial,sans-serif;
+}
+
+input { outline:none; }
+
+
+//Scroll bar
+::-webkit-scrollbar { width: 0.7rem; }
+
+::-webkit-scrollbar-track { background: $scroll-white; }
+
+::-webkit-scrollbar-thumb { background: $scroll-gray; }
+
+::-webkit-scrollbar-thumb:hover { background: $scroll-black; }
+
+
+//Window size
+html, body { min-height: 100dvh; }
+
+main { 
+    padding-top: 4.5rem;
+    min-height: 100dvh;
+    overflow: hidden;
+    display: grid;
+}
+
+.router{
+    display: none;
+}
+
+app-login {
+    display: block;
+    padding-bottom: 5rem;
+    height: calc(100vh - 5rem);
+}
+
+app-shop-registration {
+    height: 100vh;
+    display: block;
+    padding-bottom: 5rem;
+}
+
+app-user-registration {
+    height: 100dvh;
+    display: block;
+    padding-bottom: 5rem;
+}
+
+app-email-verify {
+    display: block;
+    padding-bottom: 5rem;
+    height: calc(100vh - 5rem);
+}
+
+app-forgot-password {
+    display: block;
+    padding-bottom: 5rem;
+    height: calc(100vh - 5rem);
+}
+
+app-reset-password {
+    display: block;
+    padding-bottom: 5rem;
+    height: calc(100vh - 5rem);
+}
+
+app-error {
+    display: block;
+    padding-bottom: 5rem;
+    height: calc(100vh - 5rem);
+}

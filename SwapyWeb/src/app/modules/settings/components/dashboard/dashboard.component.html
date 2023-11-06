@@ -1,0 +1,22 @@
+<div class="settings-container">
+    <p>Settings</p>
+    <div class="settings-wrapper">
+        <div class="settings-menu">
+            <button class="settings-button active-button" disabled (click)="onMenuClick(0)">General information</button>
+            <hr/>
+            <button class="settings-button" (click)="onMenuClick(1)">Password change</button>
+            <hr/>
+            <button class="settings-button" (click)="onMenuClick(2)">Logo and banner change</button>
+        </div>
+
+        <div class="settings-router">
+            <app-user-general *ngIf="currentPage == 0  && !userType"></app-user-general>
+            
+            <app-shop-general *ngIf="currentPage == 0 && userType"></app-shop-general>
+            
+            <app-change-password *ngIf="currentPage == 1"></app-change-password>
+            
+            <app-images-update *ngIf="currentPage == 2"></app-images-update>
+        </div>
+    </div>
+</div>

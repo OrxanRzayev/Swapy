@@ -1,0 +1,142 @@
+<div class="user-detail-wrapper">
+
+  <div class="user-banner" *ngIf="userDetail">      
+    <h2 class="user-fullname"><span name="user-firstname">{{userDetail.firstName}}</span>&nbsp;<span name="user-lastname">{{userDetail.lastName}}</span></h2>
+  </div>
+
+  <div class="user-banner-loading" *ngIf="!userDetail"></div>
+
+  <img *ngIf="userDetail" class="user-image" (error)="userImageLoadError($event)" [src]="userDetail.logo"/> 
+  <p *ngIf="!userDetail" class="user-image-loading"></p>
+
+  <h2 *ngIf="userDetail" class="user-collapsed-fullname"><span name="user-firstname">{{userDetail.firstName}}</span>&nbsp;<span name="user-lastname">{{userDetail.lastName}}</span></h2>
+  <h2 *ngIf="!userDetail" class="user-collapsed-fullname-loading"></h2>
+
+  <div  class="user-description">
+    <h2 *ngIf="userDetail" class="user-description-fullname"><span name="user-firstname">{{userDetail.firstName}}</span>&nbsp;<span name="user-lastname">{{userDetail.lastName}}</span></h2>
+    <h2 *ngIf="!userDetail" class="user-description-fullname-loading"></h2>
+    
+    <div class="buttons-container" *ngIf="!(isMe || isIShop)">
+      <button *ngIf="userDetail" [class.active-button]="isSubscription" (click)="subscribe()">{{isSubscription ? 'Unsubscribe' : 'Subscribe'}}</button>
+      <p *ngIf="!userDetail" class="button-loading"></p>
+      <button *ngIf="userDetail" [class.active-button]="isLike" (click)="like()">
+          <i class="fa-regular fa-thumbs-up inactive"></i>
+          <i class="fa-solid fa-thumbs-up active"></i>
+      </button>
+      <p *ngIf="!userDetail" class="button-loading"></p>
+    </div>
+    <div class="buttons-container" *ngIf="isMe">
+      <button *ngIf="userDetail" class="active-button" (click)="transferToSettings()">Settings</button>
+      <p *ngIf="!userDetail" class="button-loading"></p>
+      <button *ngIf="userDetail" class="active-button" (click)="dialogElementRef.nativeElement.showModal();">
+        <i class="fa-solid fa-angles-up"></i>
+      </button>
+      <p *ngIf="!userDetail" class="button-loading"></p>
+    </div>
+
+  </div>
+  
+  <div class="user-information">
+      <div class="information" *ngIf="userDetail && userDetail.registrationDate">
+          <i class="fa-regular fa-calendar"></i>
+          <p>{{userDetail.registrationDate | dateOnly}}</p>
+      </div>
+      <p class="information-loading" *ngIf="!userDetail"></p>
+      <div class="information clickable" (click)="copyToClipboard($event)" *ngIf="userDetail && userDetail.phoneNumber">
+          <i class="fa-solid fa-phone"></i>
+          <p>{{userDetail.phoneNumber | phoneNumber}}</p>
+      </div>
+      <p class="information-loading" *ngIf="!userDetail"></p>
+      <div class="information clickable" (click)="copyToClipboard($event)" *ngIf="userDetail && userDetail.email">
+          <i class="fa-solid fa-envelope"></i>
+          <p>{{userDetail.email}}</p>
+      </div>
+      <p class="information-loading" *ngIf="!userDetail"></p>
+      <div *ngIf="userDetail" class="line"></div>
+      <div *ngIf="!userDetail" class="line-loading"></div>
+      <div class="status-information">
+          <p class="information-loading" *ngIf="!userDetail"></p>
+          <div *ngIf="userDetail" class="information">
+              <i class="fa-solid fa-users"></i>
+              <p>{{userDetail.subscriptionsCount | shortNumber}}</p>
+          </div>
+          <div *ngIf="userDetail" class="information">
+              <i class="fa-solid fa-thumbs-up"></i>
+              <p>{{userDetail.likesCount | shortNumber}}</p>
+          </div>
+          <div *ngIf="userDetail" class="information">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <p>{{userDetail.productsCount | shortNumber}}</p>
+          </div>
+      </div>
+  </div>
+
+  <div class="product-section-container" *ngIf="userDetail">
+    <div class="product-section" *ngIf="!isNotFoundProducts">
+      <div class="product-section-table-of-contents">
+        <p>Products</p>
+        <select class="form-select select-filter" [(ngModel)]="selectedFilter" (ngModelChange)="onSelectFilterChange()">
+          <option class="option" value="1">Newest first</option>
+          <option class="option" value="2">Oldest first</option>
+          <option class="option" value="4">Price: High to Low</option>
+          <option class="option" value="3">Price: Low to High</option>
+        </select>
+      </div>
+      <div class="products-container" *ngIf="!isLoadingProducts">
+        <app-product-card *ngFor="let product of userProducts; trackBy: trackByProductId" [product]="product"></app-product-card>
+      </div>
+      <div class="products-container" *ngIf="isLoadingProducts">
+        <app-product-card *ngFor="let product of userProducts; trackBy: trackByProductId;" [product]="product"></app-product-card>
+        <app-product-loading-card *ngFor="let loadingProduct of generateRange(!(userProductsCount && allPages && currentPage) || (currentPage < allPages) ? pageSize : userProductsCount - (pageSize * (currentPage - 1)));"></app-product-loading-card>
+      </div>
+      <button class="button-load-more" *ngIf="(currentPage && allPages) && currentPage < allPages" (click)="loadUserProducts()">Load more</button>
+    </div>
+
+    <div class="product-section" *ngIf="!isNotFoundDisabledProducts">
+      <div class="product-section-table-of-contents">
+        <p>Disabled products</p>
+        <select class="form-select select-filter" [(ngModel)]="selectedDisabledFilter" (ngModelChange)="onSelectDisabledFilterChange()">
+          <option class="option" value="1">Newest first</option>
+          <option class="option" value="2">Oldest first</option>
+          <option class="option" value="4">Price: High to Low</option>
+          <option class="option" value="3">Price: Low to High</option>
+        </select>
+      </div>
+      <div class="products-container" *ngIf="!isLoadingDisabledProducts">
+        <app-product-card *ngFor="let product of userDisabledProducts; trackBy: trackByProductId" [product]="product"></app-product-card>
+      </div>
+      <div class="products-container" *ngIf="isLoadingDisabledProducts">
+          <app-product-card *ngFor="let product of userDisabledProducts; trackBy: trackByProductId;" [product]="product"></app-product-card>
+          <app-product-loading-card *ngFor="let loadingDisabledProduct of generateRange(!(userDisabledProductsCount && allDisabledPages && currentDisabledPage) || (currentDisabledPage < allDisabledPages) ? pageSize : userDisabledProductsCount - (pageSize * (currentDisabledPage - 1)));"></app-product-loading-card>
+      </div>
+      <button class="button-load-more" *ngIf="(currentDisabledPage && allDisabledPages) && currentDisabledPage < allDisabledPages" (click)="loadUserProducts()">Load more</button>
+  </div>
+
+    <div class="product-section" *ngIf="isNotFoundProducts && isNotFoundDisabledProducts">
+      <div class="product-section-table-of-contents">
+        <p>Products</p>
+      </div>  
+      <div class="product-section-not-found">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <p class="not-found-text">No product yet</p>
+          <p class="not-found-description">The user has not added products yet</p>
+      </div>
+    </div>
+  </div>
+
+    
+</div>
+
+<dialog #dialogElement class="custom-modal" role="dialog" *ngIf="isMe">
+  <div class="custom-modal-header">
+      <h4 class="custom-modal-header-title">Increase your sales !</h4>
+      <button class="custom-modal-header-close" aria-label="close" (click)="dialogElementRef.nativeElement.close();">❌</button>
+  </div>
+  <div class="custom-modal-body">
+      <p>You can improve your account so that your products come across in the recommendations of other users, thereby increasing the number of your sales.</p>
+      <div class="body-buttons-container">
+        <a class="custom-modal-link" (click)="dialogElementRef.nativeElement.close();">Later</a>
+        <a class="custom-modal-link">Upgrade</a>
+      </div>
+  </div>
+</dialog>

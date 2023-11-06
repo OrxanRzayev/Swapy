@@ -1,0 +1,50 @@
+<div class="settings-general">
+    <form class="card-body custom-card-body" [formGroup]="userGeneralForm" (submit)="onSubmit()">
+        <div id="firstNameGroup" class="custom-default-card-group">
+            <input type="text" required="required" formControlName="firstName" (blur)="onInputBlur('firstName')"/>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label class="input-placeholder">First name</label>
+            <ng-container *ngIf="firstName?.touched">
+                <label *ngIf="firstName?.errors?.['required']" class="input-error">* First name field is required</label>
+                <label *ngIf="firstName?.errors?.['pattern']" class="input-error">* Invalid First name field</label>
+            </ng-container>
+        </div>
+        <div id="lastNameGroup" class="custom-default-card-group">
+            <input type="text" required="required" formControlName="lastName" (blur)="onInputBlur('lastName')"/>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label class="input-placeholder">Last name</label>
+            <ng-container *ngIf="lastName?.touched">
+                <label *ngIf="lastName?.errors?.['required']" class="input-error">* Last name field is required</label>
+                <label *ngIf="lastName?.errors?.['pattern']" class="input-error">* Invalid Last name field</label>
+            </ng-container>
+        </div>
+        <div id="phoneNumberGroup" class="custom-default-card-group">
+            <input type="text" required="required" formControlName="phoneNumber" (blur)="onInputBlur('phoneNumber')"/>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label class="input-placeholder">Phone number</label>
+            <ng-container *ngIf="phoneNumber?.touched">
+                <label *ngIf="phoneNumber?.errors?.['required']" class="input-error">* Phone number field is required</label>
+                <label *ngIf="phoneNumber?.errors?.['pattern']" class="input-error">* Invalid Phone number field</label>
+                <label *ngIf="validPhoneNumber" class="input-error">* Phone number already taken</label>
+            </ng-container>
+        </div>
+        <div class="custom-default-card-group">
+            <p>Do yo want to have notification?</p>
+            <div class="radio-groups">
+                <div class="radio-group">
+                    <input id="radio_yes" type="radio" formControlName="isSubscribed" [value]="true" name="isSubscribed"/>
+                    <label for="radio_yes">Yes</label>
+                </div>
+                
+                <div class="radio-group">
+                    <input id="radio_no" type="radio" formControlName="isSubscribed" [value]="false" name="isSubscribed"/>
+                    <label for="radio_no">No</label>
+                </div>
+            </div>
+        </div>
+        <button class="custom-card-button" type="submit">Update</button>
+    </form>
+</div>

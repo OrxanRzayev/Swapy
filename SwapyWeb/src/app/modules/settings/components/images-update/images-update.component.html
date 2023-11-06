@@ -1,0 +1,17 @@
+<div class="images-update-container">
+    <div class="logo-container">
+        <p>Logo</p>
+        <label for="logoInput">
+            <img (error)="imageLoadError($event)" #logoElement/>
+        </label>
+        <input id="logoInput" class="collapse" type="file" (change)="updateLogo($event)" [accept]="'image/png, image/jpg, image/jpeg'">
+    </div>
+    <div class="banner-container" *ngIf="isShop">
+        <p>Banner</p>
+        <label for="bannerInput">
+            <div class="shop-banner" #bannerElement></div>
+        </label>
+        <input id="bannerInput" class="collapse" type="file" (change)="updateBanner($event)" [accept]="'image/png, image/jpg, image/jpeg'">
+    </div>
+    <div class="banner-container"></div>
+</div>

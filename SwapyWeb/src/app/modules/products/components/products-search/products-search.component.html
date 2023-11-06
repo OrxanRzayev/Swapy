@@ -1,0 +1,499 @@
+<div class="product-search-wrapper">
+    <div class="filters-container">
+        <div class="filter-wrapper">
+            <div dataWidget="category-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Category</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="category-filter" class="filter-container collapse">
+                <select class="form-select select-filter" [(ngModel)]="selectedCategoryId" (ngModelChange)="onSelectCategoryChange()">
+                    <option class="option" [value]="undefined">All categories</option>
+                    <option *ngFor="let category of categories;" class="option" [value]="category.id">{{category.value}}</option>
+                </select>
+                <select *ngFor="let subcategories of generateRange(subcategoriesHierarchy.length); let i=index;" class="form-select select-filter" [(ngModel)]="selectedSubcategoriesId[i]" (ngModelChange)="onSelectSubcategoryChange(i)">
+                    <option class="option" [value]="undefined">All</option>
+                    <option *ngFor="let subcategory of subcategoriesHierarchy[i];" class="option" [value]="subcategory.id">{{subcategory.value}}</option>
+                </select>            
+            </div>
+        </div>
+        <div class="filter-wrapper">
+            <div dataWidget="price-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Price</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="price-filter" class="filter-container collapse">
+                <div class="price-currency">
+                    <p>Currency:&nbsp;</p>
+                    <select class="form-select select-filter" [(ngModel)]="selectedCurrencyId" (ngModelChange)="onSelectCurrencyChange()">
+                        <option *ngFor="let currency of currencies;" class="option" [value]="currency.id">{{currency.value}}</option>
+                    </select>  
+                </div>
+                <div class="range-inputs">
+                    <label class="input-label input-label-min">
+                        <span class="input-label-text">from</span>
+                        <input (change)="onChangeFilter()" id="price-input-min" type="number" class="input-min" [value]="minPrice" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">{{selectedCurrencySymbol}}</span>
+                    </label>
+                    <label class="input-label input-label-max">
+                        <span class="input-label-text">to</span>
+                        <input (change)="onChangeFilter()" id="price-input-max" type="number" class="input-max" [value]="maxPrice" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">{{selectedCurrencySymbol}}</span>
+                    </label>
+                </div>
+                <ngx-slider (userChangeStart)="isRangeSliderMouseDownEvent()" (touchend)="onChangeFilter()" id="price-range-slider" class="range-slider" [(value)]="minPrice" [(highValue)]="maxPrice" [options]="priceSliderOptions"></ngx-slider>
+            </div>
+        </div>
+        <div class="filter-wrapper">
+            <div dataWidget="city-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>City</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="city-filter" class="filter-container collapse">
+                <select class="form-select select-filter" [(ngModel)]="selectedCityId" (ngModelChange)="onChangeFilter()">
+                    <option class="option" [value]="undefined">All cities</option>
+                    <option *ngFor="let city of cities;" class="option" [value]="city.id">{{city.value}}</option>
+                </select>          
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 0">
+            <div dataWidget="breed-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Breed</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="breed-filter" class="filter-container collapse"> 
+                <div *ngFor="let breed of breeds;" class="day-group">
+                    <input [id]="'breed-checkbox-' + breed.value.id" [(ngModel)]="breed.selected" (ngModelChange)="onChangeFilter()" type="checkbox">
+                    <label [for]="'breed-checkbox-' + breed.value.id">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      {{breed.value.value}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="(selectedCategoryType !== undefined && selectedCategoryType >= 1 && selectedCategoryType <= 4) || selectedCategoryType == 6">
+            <div dataWidget="is-new-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Is new</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="is-new-filter" class="filter-container collapse"> 
+                <div class="radio-groups">
+                    <div class="radio-group">
+                      <input id="is-new-radio-all" type="radio" name="in-new" [(ngModel)]="selectedIsNewFilter" (ngModelChange)="onChangeFilter()" [value]="0"/>
+                      <label for="is-new-radio-all">All</label>
+                    </div>
+                  
+                    <div class="radio-group">
+                      <input id="is-new-radio-yes" type="radio" name="in-new" [(ngModel)]="selectedIsNewFilter" (ngModelChange)="onChangeFilter()" [value]="1"/>
+                      <label for="is-new-radio-yes">Yes</label>
+                    </div>
+                  
+                    <div class="radio-group">
+                      <input id="is-new-radio-no" type="radio" name="in-new" [(ngModel)]="selectedIsNewFilter" (ngModelChange)="onChangeFilter()" [value]="-1"/>
+                      <label for="is-new-radio-no">No</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 1">
+            <div dataWidget="miliage-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Miliage</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="miliage-filter" class="filter-container collapse"> 
+                <div class="range-inputs">
+                    <label class="input-label input-label-min">
+                        <span class="input-label-text">from</span>
+                        <input (change)="onChangeFilter()" id="miliage-input-min" type="number" class="input-min" [value]="minMiliage" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">km</span>
+                    </label>
+                    <label class="input-label input-label-max">
+                        <span class="input-label-text">to</span>
+                        <input (change)="onChangeFilter()" id="miliage-input-max" type="number" class="input-max" [value]="maxMiliage" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">km</span>
+                    </label>
+                </div>
+                <ngx-slider (userChangeStart)="isRangeSliderMouseDownEvent()" (touchend)="onChangeFilter()" id="miliage-range-slider" class="range-slider" [(value)]="minMiliage" [(highValue)]="maxMiliage" [options]="miliageSliderOptions"></ngx-slider>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 1">
+            <div dataWidget="engine-capacity-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Engine capacity</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="engine-capacity-filter" class="filter-container collapse"> 
+                <div class="range-inputs">
+                    <label class="input-label input-label-min">
+                        <span class="input-label-text">from</span>
+                        <input (change)="onChangeFilter()" id="engine-capacity-input-min" type="number" class="input-min" [value]="minEngineCapacity" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">cc</span>
+                    </label>
+                    <label class="input-label input-label-max">
+                        <span class="input-label-text">to</span>
+                        <input (change)="onChangeFilter()" id="engine-capacity-input-max" type="number" class="input-max" [value]="maxEngineCapacity" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">cc</span>
+                    </label>
+                </div>
+                <ngx-slider (userChangeStart)="isRangeSliderMouseDownEvent()" (touchend)="onChangeFilter()" id="engine-capacity-range-slider" class="range-slider" [(value)]="minEngineCapacity" [(highValue)]="maxEngineCapacity" [options]="engineCapacitySliderOptions"></ngx-slider>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 1">
+            <div dataWidget="release-year-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Release year</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="release-year-filter" class="filter-container collapse"> 
+                <div class="range-inputs">
+                    <label class="input-label input-label-min">
+                        <span class="input-label-text">from</span>
+                        <input (change)="onChangeFilter()" id="release-year-input-min" type="number" class="input-min" [value]="olderReleaseYear" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">year</span>
+                    </label>
+                    <label class="input-label input-label-max">
+                        <span class="input-label-text">to</span>
+                        <input (change)="onChangeFilter()" id="release-year-input-max" type="number" class="input-max" [value]="newerReleaseYear" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">year</span>
+                    </label>
+                </div>
+                <ngx-slider (userChangeStart)="isRangeSliderMouseDownEvent()" (touchend)="onChangeFilter()" id="release-year-range-slider" class="range-slider" [(value)]="olderReleaseYear" [(highValue)]="newerReleaseYear" [options]="releaseYearSliderOptions"></ngx-slider>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 1">
+            <div dataWidget="fuel-type-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Fuel type</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="fuel-type-filter" class="filter-container collapse"> 
+                <div *ngFor="let fuelType of fuelTypes;" class="day-group">
+                    <input [id]="'fuelType-checkbox-' + fuelType.value.id" [(ngModel)]="fuelType.selected" (ngModelChange)="onChangeFilter()" type="checkbox">
+                    <label [for]="'fuelType-checkbox-' + fuelType.value.id">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      {{fuelType.value.value}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 1 || selectedCategoryType == 3">
+            <div dataWidget="color-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Color</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="color-filter" class="filter-container collapse"> 
+                <div *ngFor="let color of colors;" class="day-group">
+                    <input [id]="'color-checkbox-' + color.value.id" [(ngModel)]="color.selected" (ngModelChange)="onChangeFilter()" type="checkbox">
+                    <label [for]="'color-checkbox-' + color.value.id">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      {{color.value.value}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 1">
+            <div dataWidget="transmission-type-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Transmission type</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="transmission-type-filter" class="filter-container collapse"> 
+                <div *ngFor="let transmissionType of transmissionTypes;" class="day-group">
+                    <input [id]="'transmission-type-checkbox-' + transmissionType.value.id" [(ngModel)]="transmissionType.selected" (ngModelChange)="onChangeFilter()" type="checkbox">
+                    <label [for]="'transmission-type-checkbox-' + transmissionType.value.id">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      {{transmissionType.value.value}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="(selectedCategoryType !== undefined && selectedCategoryType >= 1 && selectedCategoryType <= 3) || selectedCategoryType == 6">
+            <div dataWidget="brand-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Brand</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="brand-filter" class="filter-container collapse"> 
+                <div *ngFor="let brand of brands;" class="day-group">
+                    <input [id]="'brand-checkbox-' + brand.value.id" [(ngModel)]="brand.selected" (ngModelChange)="onSelectedBrandChange()" type="checkbox">
+                    <label [for]="'brand-checkbox-' + brand.value.id">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      {{brand.value.value}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 2">
+            <div dataWidget="clothes-type-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Type of clothing</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="clothes-type-filter" class="filter-container collapse"> 
+                <div class="radio-groups">
+                    <div class="radio-group">
+                      <input id="clothes-type-radio-all" type="radio" name="in-clothes-type" [(ngModel)]="selectedClothesTypeFilter" (ngModelChange)="onSelectedClothesTypeChange()" [value]="0"/>
+                      <label for="radio_all">All</label>
+                    </div>
+
+                    <div class="radio-group">
+                        <input id="clothes-type-radio-adult" type="radio" name="in-clothes-type" [(ngModel)]="selectedClothesTypeFilter" (ngModelChange)="onSelectedClothesTypeChange()" [value]="1"/>
+                        <label for="radio_yes">Adult</label>
+                    </div>
+                  
+                    <div class="radio-group">
+                      <input id="clothes-type-radio-childish" type="radio" name="in-clothes-type" [(ngModel)]="selectedClothesTypeFilter" (ngModelChange)="onSelectedClothesTypeChange()" [value]="-1"/>
+                      <label for="clothes-type-radio-childish">Childish</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 2 && selectedSubcategoriesId.length > 0 && selectedSubcategoriesId[selectedSubcategoriesId.length - 1] != 'undefined'">
+            <div dataWidget="clothes-size-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Clothes size</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="clothes-size-filter" class="filter-container collapse"> 
+                <div *ngFor="let clothesSize of clothesSizes;" class="day-group">
+                    <input [id]="'clothes-size-checkbox-' + clothesSize.value.id" [(ngModel)]="clothesSize.selected" (ngModelChange)="onChangeFilter()" type="checkbox">
+                    <label [for]="'clothes-size-checkbox-' + clothesSize.value.id">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      {{clothesSize.value.value}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 2">
+            <div dataWidget="gender-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Gender</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="gender-filter" class="filter-container collapse"> 
+                <select class="form-select select-filter" [(ngModel)]="selectedGenderId" (ngModelChange)="onSelectedGenderChange()">
+                    <option class="option" [value]="undefined">All</option>
+                    <option *ngFor="let gender of genders;" class="option" [value]="gender.id">{{gender.value}}</option>
+                </select>    
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 2">
+            <div dataWidget="clothes-season-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Clothes season</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="clothes-season-filter" class="filter-container collapse"> 
+                <div *ngFor="let clothesSeason of clothesSeasons;" class="day-group">
+                    <input [id]="'clothes-season-checkbox-' + clothesSeason.value.id" [(ngModel)]="clothesSeason.selected" (ngModelChange)="onChangeFilter()" type="checkbox">
+                    <label [for]="'clothes-season-checkbox-' + clothesSeason.value.id">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      {{clothesSeason.value.value}}
+                    </label>
+                </div> 
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 2 && selectedGenderId && selectedGenderId != 'undefined' && selectedClothesTypeFilter != 0 && selectedSubcategoriesId.length > 0 && selectedSubcategoriesId[selectedSubcategoriesId.length - 1] != 'undefined'">
+            <div dataWidget="clothes-view-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Clothes view</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="clothes-view-filter" class="filter-container collapse"> 
+                <select class="form-select select-filter" [(ngModel)]="selectedClothesViewId" (ngModelChange)="onSelectedClothesViewChange()">
+                    <option class="option" [value]="undefined">All</option>
+                    <option *ngFor="let clothesView of clothesViews;" class="option" [value]="clothesView.id">{{clothesView.value}}</option>
+                </select>    
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 3">
+            <div dataWidget="memory-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Memory</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="memory-filter" class="filter-container collapse"> 
+                <div *ngFor="let memory of memories;" class="day-group">
+                    <input [id]="'memory-checkbox-' + memory.value.id" [(ngModel)]="memory.selected" (ngModelChange)="onChangeFilter()" type="checkbox">
+                    <label [for]="'memory-checkbox-' + memory.value.id">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      {{memory.value.value}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 1 || selectedCategoryType == 3">
+            <div dataWidget="model-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Model</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="model-filter" class="filter-container collapse"> 
+                <select class="form-select select-filter" [(ngModel)]="selectedModelId" (ngModelChange)="onSelectedModelChange()">
+                    <option class="option" [value]="undefined">All</option>
+                    <option *ngFor="let model of models;" class="option" [value]="model.id">{{model.value}}</option>
+                </select> 
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 5">
+            <div dataWidget="area-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Area</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="area-filter" class="filter-container collapse"> 
+                <div class="range-inputs">
+                    <label class="input-label input-label-min">
+                        <span class="input-label-text">from</span>
+                        <input (change)="onChangeFilter()" id="area-input-min" type="number" class="input-min" [value]="minArea" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">m²</span>
+                    </label>
+                    <label class="input-label input-label-max">
+                        <span class="input-label-text">to</span>
+                        <input (change)="onChangeFilter()" id="area-input-max" type="number" class="input-max" [value]="maxArea" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">m²</span>
+                    </label>
+                </div>
+                <ngx-slider (userChangeStart)="isRangeSliderMouseDownEvent()" (touchend)="onChangeFilter()" id="area-range-slider" class="range-slider" [(value)]="minArea" [(highValue)]="maxArea" [options]="areaSliderOptions"></ngx-slider>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 5">
+            <div dataWidget="rooms-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Rooms</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="rooms-filter" class="filter-container collapse"> 
+                <div class="range-inputs">
+                    <label class="input-label input-label-min">
+                        <span class="input-label-text">from</span>
+                        <input (change)="onChangeFilter()" id="rooms-input-min" type="number" class="input-min" [value]="minRooms" (input)="handlePositiveNumberInput($event)">
+                    </label>
+                    <label class="input-label input-label-max">
+                        <span class="input-label-text">to</span>
+                        <input (change)="onChangeFilter()" id="rooms-input-max" type="number" class="input-max" [value]="maxRooms" (input)="handlePositiveNumberInput($event)">
+                    </label>
+                </div>
+                <ngx-slider (userChangeStart)="isRangeSliderMouseDownEvent()" (touchend)="onChangeFilter()" id="rooms-range-slider" class="range-slider" [(value)]="minRooms" [(highValue)]="maxRooms" [options]="roomsSliderOptions"></ngx-slider>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 5">
+            <div dataWidget="is-rent-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Rent or sale</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="is-rent-filter" class="filter-container collapse"> 
+                <div class="radio-groups">
+                    <div class="radio-group">
+                      <input id="is-rent-radio-all" type="radio" name="in-rent" [(ngModel)]="selectedIsRentFilter" (ngModelChange)="onChangeFilter()" [value]="0"/>
+                      <label for="is-rent-radio-all">All</label>
+                    </div>
+                  
+                    <div class="radio-group">
+                      <input id="is-rent-radio-yes" type="radio" name="in-rent" [(ngModel)]="selectedIsRentFilter" (ngModelChange)="onChangeFilter()" [value]="1"/>
+                      <label for="is-rent-radio-yes">Rent</label>
+                    </div>
+                  
+                    <div class="radio-group">
+                      <input id="is-rent-radio-no" type="radio" name="in-rent" [(ngModel)]="selectedIsRentFilter" (ngModelChange)="onChangeFilter()" [value]="-1"/>
+                      <label for="is-rent-radio-no">Sale</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 6">
+            <div dataWidget="tv-type-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>TV type</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="tv-type-filter" class="filter-container collapse"> 
+                <div *ngFor="let tvType of tvTypes;" class="day-group">
+                    <input [id]="'tv-type-checkbox-' + tvType.value.id" [(ngModel)]="tvType.selected" (ngModelChange)="onChangeFilter()" type="checkbox">
+                    <label [for]="'tv-type-checkbox-' + tvType.value.id">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      {{tvType.value.value}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 6">
+            <div dataWidget="is-smart-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Is smart</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="is-smart-filter" class="filter-container collapse"> 
+                <div class="radio-groups">
+                    <div class="radio-group">
+                      <input id="is-smart-radio-all" type="radio" name="in-smart" [(ngModel)]="selectedIsSmartFilter" (ngModelChange)="onChangeFilter()" [value]="0"/>
+                      <label for="is-smart-radio-all">All</label>
+                    </div>
+                  
+                    <div class="radio-group">
+                      <input id="is-smart-radio-yes" type="radio" name="in-smart" [(ngModel)]="selectedIsSmartFilter" (ngModelChange)="onChangeFilter()" [value]="1"/>
+                      <label for="is-smart-radio-yes">Yes</label>
+                    </div>
+                  
+                    <div class="radio-group">
+                      <input id="is-smart-radio-no" type="radio" name="in-smart" [(ngModel)]="selectedIsSmartFilter" (ngModelChange)="onChangeFilter()" [value]="-1"/>
+                      <label for="is-smart-radio-no">No</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 6">
+            <div dataWidget="screen-resolution-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Screen resolution</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="screen-resolution-filter" class="filter-container collapse"> 
+                <div *ngFor="let screenResolution of screenResolutions;" class="day-group">
+                    <input [id]="'screen-resolution-checkbox-' + screenResolution.value.id" [(ngModel)]="screenResolution.selected" (ngModelChange)="onChangeFilter()" type="checkbox">
+                    <label [for]="'screen-resolution-checkbox-' + screenResolution.value.id">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      {{screenResolution.value.value}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="filter-wrapper" *ngIf="selectedCategoryType == 6">
+            <div dataWidget="screen-diagonal-filter" class="filter-title-container filter-title-container-collapse" (click)="filterBlockCollapse($event)">
+                <p>Screen diagonal</p>
+                <span class="filter-icon"><svg fill="#999" viewBox="0 0 444.819 444.819" width="1em" height="1em"><path d="M434.252 114.203l-21.409-21.416c-7.419-7.04-16.084-10.561-25.975-10.561-10.095 0-18.657 3.521-25.7 10.561L222.41 231.549 83.653 92.791c-7.042-7.04-15.606-10.561-25.697-10.561-9.896 0-18.559 3.521-25.979 10.561l-21.128 21.416C3.615 121.436 0 130.099 0 140.188c0 10.277 3.619 18.842 10.848 25.693l185.864 185.865c6.855 7.23 15.416 10.848 25.697 10.848 10.088 0 18.75-3.617 25.977-10.848l185.865-185.865c7.043-7.044 10.567-15.608 10.567-25.693.001-9.901-3.523-18.559-10.566-25.985z"></path></svg></span>
+            </div>
+            <div id="screen-diagonal-filter" class="filter-container collapse"> 
+                <div *ngFor="let screenDiagonal of screenDiagonals;" class="day-group">
+                    <input [id]="'screen-diagonal-checkbox-' + screenDiagonal.value.id" [(ngModel)]="screenDiagonal.selected" (ngModelChange)="onChangeFilter()" type="checkbox">
+                    <label [for]="'screen-diagonal-checkbox-' + screenDiagonal.value.id">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      {{screenDiagonal.value.value}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button class="filters-button" [class.filters-button-disabled]="isUpdateProductsButtonDisabled" (click)="loadSuitableProducts(true)" [disabled]="isUpdateProductsButtonDisabled">Update products</button>
+    </div>
+    <div class="product-section-container" *ngIf="true">
+        <div class="product-section" *ngIf="!isNotFoundProducts">
+            <div class="product-section-table-of-contents">
+              <p>Found ({{suitableProductsCount}})</p>
+              <select class="form-select select-filter" [(ngModel)]="selectedFilter" (ngModelChange)="onSelectSortChange()">
+                <option class="option" value="1">Newest first</option>
+                <option class="option" value="2">Oldest first</option>
+                <option class="option" value="3">Price: Low to High</option>
+                <option class="option" value="4">Price: High to Low</option>
+              </select>
+            </div>
+            <div class="products-container" *ngIf="!isLoadingProducts">
+              <app-product-card *ngFor="let product of suitableProducts; trackBy: trackByProductId" [product]="product"></app-product-card>
+            </div>
+            <div class="products-container" *ngIf="isLoadingProducts">
+                <app-product-card *ngFor="let product of suitableProducts; trackBy: trackByProductId;" [product]="product"></app-product-card>
+                <app-product-loading-card *ngFor="let loadingProduct of generateRange(!(suitableProductsCount && allPages && currentPage) || (currentPage < allPages) ? pageSize : suitableProductsCount - (pageSize * (currentPage - 1)));"></app-product-loading-card>
+            </div>
+            <button class="button-load-more" *ngIf="(currentPage && allPages) && currentPage < allPages" (click)="loadSuitableProducts()">Load more</button>
+        </div>
+          
+        <div class="product-section" *ngIf="isNotFoundProducts">
+            <div class="product-section-table-of-contents">
+              <p>Found (0)</p>
+            </div>
+            <div class="product-section-not-found">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <p class="not-found-text">No product found</p>
+                <p class="not-found-description">No suitable products found</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<svg style="display: none">
+    <symbol id="checkmark" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-miterlimit="10" fill="none"  d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+      </path>
+    </symbol>
+</svg>

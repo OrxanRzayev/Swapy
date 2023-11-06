@@ -1,0 +1,286 @@
+<div class="product-detail-wrapper">
+    <div class="product-wrapper">
+        <p class="sliders-container-loading" *ngIf="!product"></p>
+        <div class="sliders-container" *ngIf="product">
+            <div class="product-big-images-slider-container">
+                <button class="arrow left">
+                    <svg width="60px" height="80px" viewBox="0 0 50 80" xml:space="preserve">
+                        <filter id="drop-shadow">
+                            <feOffset dx="2" dy="2" result="offset-shadow" />
+                            <feMorphology in="offset-shadow" operator="dilate" radius="0.8" result="expanded-shadow" />
+                            <feFlood flood-color="black" flood-opacity="0.05" result="flood-shadow" />
+                            <feComposite in2="expanded-shadow" operator="in" result="shadow" />
+                            <feMerge>
+                            <feMergeNode in="shadow" />
+                            <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                        <polyline fill="none" stroke-linecap="round" stroke-linejoin="round" points="45.63,75.8 0.375,38.087 45.63,0.375" filter="url(#drop-shadow)" />
+                    </svg>  
+                  </button>
+                  <button class="arrow right">
+                    <svg width="60px" height="80px" viewBox="0 0 50 80" xml:space="preserve">
+                        <filter id="drop-shadow">
+                          <feOffset dx="2" dy="2" result="offset-shadow" />
+                          <feMorphology in="offset-shadow" operator="dilate" radius="0.8" result="expanded-shadow" />
+                          <feFlood flood-color="black" flood-opacity="0.05" result="flood-shadow" />
+                          <feComposite in2="expanded-shadow" operator="in" result="shadow" />
+                          <feMerge>
+                            <feMergeNode in="shadow" />
+                            <feMergeNode in="SourceGraphic" />
+                          </feMerge>
+                        </filter>    
+                        <polyline fill="none" stroke-linecap="round" stroke-linejoin="round" points="0.375,0.375 45.63,38.087 0.375,75.8" filter="url(#drop-shadow)" />
+                    </svg>
+                  </button>
+                <div class="product-big-images-slider">
+                    <img (error)="productImageLoadError($event)" *ngFor="let image of product.images;" [src]='image'/>
+                </div>
+            </div>
+            <div class="product-images-slider">
+                <img class="product-images-slider-slide" (error)="productImageLoadError($event)" *ngFor="let image of product.images;" [src]='image'/>
+            </div>
+        </div>
+        <div class="product-name-loading" *ngIf="!product">
+          <p></p>
+        </div>
+        <div class="product-name" *ngIf="product">
+            <p>{{product.title}}</p>
+            <div class="favorite-button" *ngIf="!isMe">
+                <input type="checkbox" class="favorite-checkbox" [id]="'favorite-checkbox-' + product.productId" [checked]="product.isFavorite" (click)="changeFavorite($event)"/>
+                <label [for]="'favorite-checkbox-' + product.productId">
+                    <svg id="heart-svg" viewBox="467 392 58 57">
+                      <g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
+                        <path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" id="heart" fill="#C0C0C0	"/>
+                        <circle id="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/>
+              
+                        <g id="grp7" opacity="0" transform="translate(7 6)">
+                          <circle id="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/>
+                          <circle id="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/>
+                        </g>
+              
+                        <g id="grp6" opacity="0" transform="translate(0 28)">
+                          <circle id="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/>
+                          <circle id="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/>
+                        </g>
+              
+                        <g id="grp3" opacity="0" transform="translate(52 28)">
+                          <circle id="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/>
+                          <circle id="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/>
+                        </g>
+              
+                        <g id="grp2" opacity="0" transform="translate(44 6)">
+                          <circle id="oval2" fill="#CC8EF5" cx="5" cy="6" r="2"/>
+                          <circle id="oval1" fill="#CC8EF5" cx="2" cy="2" r="2"/>
+                        </g>
+              
+                        <g id="grp5" opacity="0" transform="translate(14 50)">
+                          <circle id="oval1" fill="#91D2FA" cx="6" cy="5" r="2"/>
+                          <circle id="oval2" fill="#91D2FA" cx="2" cy="2" r="2"/>
+                        </g>
+              
+                        <g id="grp4" opacity="0" transform="translate(35 50)">
+                          <circle id="oval1" fill="#F48EA7" cx="6" cy="5" r="2"/>
+                          <circle id="oval2" fill="#F48EA7" cx="2" cy="2" r="2"/>
+                        </g>
+              
+                        <g id="grp1" opacity="0" transform="translate(24)">
+                          <circle id="oval1" fill="#9FC7FA" cx="2.5" cy="3" r="2"/>
+                          <circle id="oval2" fill="#9FC7FA" cx="7.5" cy="2" r="2"/>
+                        </g>
+                      </g>
+                    </svg>
+                </label>
+            </div>
+        </div>
+        <table  class="table table-sm product-information-loading" *ngIf="!product">
+          <tbody>
+            <tr class="information-loading"></tr>
+            <tr class="information-loading"></tr>
+            <tr class="information-loading"></tr>
+            <tr class="information-loading"></tr>
+            <tr class="information-loading"></tr>
+            <tr class="information-loading"></tr>
+          </tbody>
+        </table>
+        <table  class="table table-sm product-information" *ngIf="product">
+          <tbody>
+            <tr  class="information">
+              <th>Location:</th>
+              <td>{{product.city}}</td>
+            </tr>
+            <tr  class="information">
+              <th>Product type:</th>
+              <td>{{product.categories[product.categories.length - 1].value}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 0">
+              <th>Breed:</th>
+              <td>{{product.breed}}</td>
+            </tr>
+            <tr class="information" *ngIf="(productCategoryType >= 1 && productCategoryType <= 4) || productCategoryType == 6">
+              <th>Is new:</th>
+              <td>{{product.isNew | booleanToYesNo}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 1">
+              <th>Miliage:</th>
+              <td>{{product.miliage}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 1">
+              <th>Engine capacity:</th>
+              <td>{{product.engineCapacity}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 1">
+              <th>Release year:</th>
+              <td>{{product.releaseYear | date:'yyyy'}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 1">
+              <th>Fuel type:</th>
+              <td>{{product.fuelType}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 1 || productCategoryType == 3">
+              <th>Color:</th>
+              <td>{{product.color}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 1">
+              <th>Transmission type:</th>
+              <td>{{product.transmissionType}}</td>
+            </tr>
+            <tr class="information" *ngIf="(productCategoryType >= 1 && productCategoryType <= 3) || productCategoryType == 6">
+              <th>Brand:</th>
+              <td *ngIf="productCategoryType == 1">{{product.autoBrand}}</td>
+              <td *ngIf="productCategoryType == 2">{{product.clothesBrand}}</td>
+              <td *ngIf="productCategoryType == 3">{{product.electronicBrand}}</td>
+              <td *ngIf="productCategoryType == 6">{{product.tvBrand}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 2">
+              <th>Clothes size:</th>
+              <td>{{product.clothesSize}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 2">
+              <th>Type of clothing:</th>
+              <td>{{product.isChild | childOrAdult}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 2">
+              <th>Gender:</th>
+              <td>{{product.gender}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 2">
+              <th>Clothes season:</th>
+              <td>{{product.clothesSeason}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 2">
+              <th>Clothes view:</th>
+              <td>{{product.clothesView}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 3">
+              <th>Memory:</th>
+              <td>{{product.memory}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 1 || productCategoryType == 3">
+              <th>Model:</th>
+              <td *ngIf="productCategoryType == 1">{{product.autoModel}}</td>
+              <td *ngIf="productCategoryType == 3">{{product.model}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 5">
+              <th>Area:</th>
+              <td>{{product.area}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 5">
+              <th>Rooms:</th>
+              <td>{{product.rooms}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 5">
+              <th>Is rent:</th>
+              <td>{{product.isRent | booleanToYesNo}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 6">
+              <th>TV type:</th>
+              <td>{{product.tvType}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 6">
+              <th>Smart:</th>
+              <td>{{product.isSmart | booleanToYesNo}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 6">
+              <th>Screen diagonal:</th>
+              <td>{{product.screenDiagonal}}</td>
+            </tr>
+            <tr class="information" *ngIf="productCategoryType == 6">
+              <th>Screen resolution:</th>
+              <td>{{product.screenResolution}}</td>
+            </tr>
+            <tr class="information">
+              <th>Date of creation:</th>
+              <td>{{product.dateTime | dateOnly}}</td>
+            </tr>
+            <tr class="information">
+              <th>Views:</th>
+              <td>{{product.views}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="product-description-loading" *ngIf="!product"></p>
+        <p class="product-description" *ngIf="product && product.description">{{product.description}}</p>
+        <div class="ad-information">
+            <p class="price-box-loading" *ngIf="!product"></p>
+            <div class="price-box" *ngIf="product"><p class="price">{{product.price}} <span class="currency">{{product.currency}}</span></p></div>
+            <p class="seller-information-box-loading" *ngIf="!product"></p>
+            <div class="seller-information-box" *ngIf="product">
+                <a class="seller-name" [routerLink]="[product.userType == 0 ? '/users/' : '/shops/', product.userId]">{{product.sellerName}}</a>  
+                <button class="button" (click)="copyToClipboard($event)" *ngIf="!isMe">
+                    <i class="fa-solid fa-phone"></i>
+                    &nbsp;{{product.phoneNumber}}
+                </button>
+                <button class="button" *ngIf="!isMe" (click)="goToChat()">
+                    <i class="fa-solid fa-message"></i>
+                    &nbsp;Write a message
+                </button>
+                <button class="button" (click)="transferToEditPage()" *ngIf="isMe">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                  &nbsp;Edit
+                </button>
+                <button class="button" (click)="removeProduct()" *ngIf="isMe">
+                  <i class="fa-solid fa-trash"></i>
+                  &nbsp;Remove
+                </button>
+                <div class="switch-hide" *ngIf="isMe">
+                  <div class="content">
+                    <input type="checkbox" id="switch-hide-btn" [checked]="!product.isDisable" (click)="onIsDisableChange($event)">
+                    <label for="switch-hide-btn">
+                      <span class="track"></span>
+                      <span class="thumb">
+                        <span class="eye"></span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product-section-container" *ngIf="product">
+        <div class="product-section" *ngIf="!isNotFoundProducts">
+            <div class="product-section-table-of-contents">
+              <p>You may also like</p>
+            </div>
+            <div class="products-container" *ngIf="!isLoadingProducts">
+              <app-product-card *ngFor="let product of similarProducts; trackBy: trackByProductId" [product]="product"></app-product-card>
+            </div>
+            <div class="products-container" *ngIf="isLoadingProducts">
+                <app-product-card *ngFor="let product of similarProducts; trackBy: trackByProductId;" [product]="product"></app-product-card>
+                <app-product-loading-card *ngFor="let loadingProduct of generateRange(!(similarProductsCount && allPages && currentPage) || (currentPage < allPages) ? pageSize : similarProductsCount - (pageSize * (currentPage - 1)));"></app-product-loading-card>
+            </div>
+            <button class="button-load-more" *ngIf="(currentPage && allPages) && currentPage < allPages" (click)="loadSimilarProducts()">Load more</button>
+        </div>
+          
+        <div class="product-section" *ngIf="isNotFoundProducts">
+            <div class="product-section-table-of-contents">
+              <p>You may also like</p>
+            </div>
+            <div class="product-section-not-found">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <p class="not-found-text">No product found</p>
+                <p class="not-found-description">No similar products found</p>
+            </div>
+        </div>
+    </div>
+</div>

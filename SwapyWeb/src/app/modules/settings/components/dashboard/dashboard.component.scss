@@ -1,0 +1,84 @@
+@import "/src/colors.scss";
+
+.settings-container {
+    max-width: 100%;
+    margin: 4rem 4rem;
+
+    @media (max-width: 1600px) { margin: 3rem 3rem; }
+    @media (max-width: 1280px) { margin: 2rem 2rem; }
+    @media (max-width: 400px) { margin: 0.8rem 0.8rem; }
+
+    p {
+        font-size: 1.6rem;
+        font-weight: 600;
+    }
+
+    .settings-wrapper {
+        display: grid;
+        grid-gap: 3rem;
+        grid-template-rows: auto 1fr;
+        grid-template-columns: auto 1fr;
+
+        .settings-menu {
+            display: flex;
+            user-select: none;
+            padding: 2rem 3rem;
+            border-radius: 1rem;
+            flex-direction: column;
+            background-color: $additional;
+        
+            .settings-button {
+                border: 0;
+                padding: 0.5rem;
+                transition: 0.3s;
+                font-size: 1.2rem;
+                border-radius: 0.5rem;
+        
+                @media (hover: hover) { 
+                    &:hover{ 
+                        background-color: $secondary;
+                    } 
+                } 
+        
+                @media (hover: none) { 
+                    &:active{ 
+                        background-color: $secondary;
+                    } 
+                }
+
+                @media (max-width: 390px) { font-size: 1rem; }
+
+                @media (max-width: 320px) { font-size: 0.8rem; }
+            }
+        
+            .active-button {
+                color: $white;
+                cursor: default;
+                pointer-events: none;
+                background-color: $primary;
+        
+                @media (hover: hover) { 
+                    &:hover{ 
+                        background-color: $primary;
+                    } 
+                } 
+        
+                @media (hover: none) { 
+                    &:active{ 
+                        background-color: $primary;
+                    } 
+                }
+            }
+
+            @media (max-width: 880px) { grid-column: 1 / span 2; }
+        }
+
+        .settings-router {
+            grid-row: span 2;
+
+            @media (max-width: 880px) { grid-column: 1 / span 2; }
+        }
+
+        @media (max-width: 880px) { grid-gap: 2rem; }
+    }
+}

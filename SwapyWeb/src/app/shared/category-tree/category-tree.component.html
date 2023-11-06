@@ -1,0 +1,23 @@
+
+<div class="card category-tree-menu">
+    <div class="title-container">
+        <button class="button-back" (click)="backButtonClick()" *ngIf="parentCategory$ | async as parentCategory">
+            <i class="fa-solid fa-arrow-left"></i>
+            <p class="title">{{parentCategory.value}}</p>
+        </button>
+        <button class="button-back" *ngIf="!(parentCategory$)" disabled>
+            <p class="title">Categories</p>
+        </button>
+        <button class="button-close" (click)="disableCategoryMenuAnimationAsync()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <ul *ngIf="categoryes$ | async as categoryes">
+        <li *ngFor="let category of categoryes">
+            <button (click)="categoryButtonClick(category)" class="category-button">
+                <span>{{category.value}}</span>
+                <i *ngIf="!category.isFinal" class="fa-solid fa-angle-right"></i>
+            </button>
+        </li>
+    </ul>
+</div>

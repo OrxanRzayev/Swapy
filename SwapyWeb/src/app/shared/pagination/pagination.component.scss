@@ -1,0 +1,122 @@
+@import "/src/colors.scss";
+
+#pagination-container{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3rem;
+  user-select: none;
+}
+
+::ng-deep .pagination-component {
+  // --bs-pagination-active-color: #ffffff;
+  // --bs-pagination-active-bg: #3a5a3d;
+  --bs-pagination-active-border-color: #3a5a3d;
+  --bs-pagination-focus-box-shadow: 0 0 0 0.25rem #3a5a3d71;
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  padding-left: 0;
+  margin: 0 auto;
+  list-style: none;
+  max-width: 70rem;
+
+  .page-item{
+    .page-link {
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ebebe8;
+      width: 3rem;
+      height: 3rem;
+      color: #3a5a3d;
+      font-size: 1.5rem;
+
+      @media (max-width: 840px) {
+        font-size: 1.2rem;
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+    }
+  }
+
+  .ellipsis>.page-link{
+    background-color: transparent;
+    font-size: 3rem;
+
+    @media (max-width: 840px) {
+      font-size: 2.5rem;
+    }
+  }
+
+  .active>.page-link{
+    background-color: #3a5a3d;
+    color: #ffffff;
+  }
+
+  .page-next>.page-link{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 2rem;
+    width: 7rem;
+
+    @media (max-width: 840px) {
+      width: 5.5rem;
+    }
+
+    p {
+      margin-bottom: 0.2rem;
+    }
+  }
+
+  .page-prev>.page-link{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 2rem;
+    width: 7rem;
+
+    @media (max-width: 840px) {
+      width: 5.5rem;
+    }
+
+    p {
+      margin-bottom: 0.2rem;
+    }
+  }
+
+}
+
+
+// .page-next {
+//   border-radius: 2rem;
+//   width: 7rem;
+//   display: block;
+// }
+
+// .page-next>.page-link{
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-evenly;
+//   height: 100%;
+//   p {
+//     margin-bottom: 0.2rem;
+//   }
+// }
+
+// .page-prev {
+//   display: block;
+//   border-radius: 2rem;
+//   width: 7rem;
+// }
+
+// .page-prev>.page-link{
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-evenly;
+//   height: 100%;
+//   p {
+//     margin-bottom: 0.2rem;
+//   }
+// }

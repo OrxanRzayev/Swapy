@@ -1,0 +1,81 @@
+<div class="registration-container" *ngIf="!shopRegistratiomSuccess">
+    <div class="card custom-card">
+        <form class="card-body custom-card-body" [formGroup]="registrationForm" (submit)="onSubmit()">
+            <h3 class="custom-card-title">Register as a shop</h3>
+            <div id="shopNameGroup" class="custom-default-card-group">
+                <input type="text" required="required" formControlName="shopName" (blur)="onInputBlur('shopName')"/>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label class="input-placeholder">Shop name</label>
+                <ng-container *ngIf="shopName?.touched">
+                    <label *ngIf="shopName?.errors?.['required']" class="input-error">* Shop name field is required</label>
+                    <label *ngIf="shopName?.errors?.['pattern']" class="input-error">* Invalid Shop name field</label>
+                    <label *ngIf="validShopName" class="input-error">* Shop name already taken</label>
+                </ng-container>
+            </div>
+            <div id="emailGroup" class="custom-default-card-group">
+                <input type="text" required="required" formControlName="email" (blur)="onInputBlur('email')"/>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label class="input-placeholder">Email</label>
+                <ng-container *ngIf="email?.touched">
+                    <label *ngIf="email?.errors?.['required']" class="input-error">* Email field is required</label>
+                    <label *ngIf="email?.errors?.['pattern']" class="input-error">* Invalid Email field</label>
+                    <label *ngIf="validEmail" class="input-error">* Email address already taken</label>
+                </ng-container>
+            </div>
+            <div id="phoneNumberGroup" class="custom-default-card-group">
+                <input type="text" required="required" formControlName="phoneNumber" (blur)="onInputBlur('phoneNumber')"/>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label class="input-placeholder">Phone number</label>
+                <ng-container *ngIf="phoneNumber?.touched">
+                    <label *ngIf="phoneNumber?.errors?.['required']" class="input-error">* Phone number field is required</label>
+                    <label *ngIf="phoneNumber?.errors?.['pattern']" class="input-error">* Invalid Phone number field</label>
+                    <label *ngIf="validPhoneNumber" class="input-error">* Phone number already taken</label>
+                </ng-container>
+            </div>
+            <div id="passwordGroup" class="custom-default-card-group">
+                <div style="position: relative">
+                    <input id="passwordInput" [type]="showPassword ? 'text' : 'password'" required="required" formControlName="password" (blur)="onInputBlur('password')">
+                    <i id="eye-icon" class="fa-solid fa-eye eye-icon" (click)="onShowPassword()"></i>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="input-placeholder">Password</label>
+                </div>
+                <ng-container *ngIf="password?.touched">
+                    <label *ngIf="password?.errors?.['required']" class="input-error">* Password field is required</label>
+                    <label *ngIf="password?.errors?.['pattern']" class="input-error">* Password field must be at least 8 and no more than 32 characters long, contain at least one number, one uppercase, one lowercase, and one special character</label>
+                </ng-container>
+            </div>
+            <div class="custom-card-option">
+                <div class="custom-option-checkbox-group">
+                    <input formControlName="rememberMe" type="checkbox"/>
+                    <svg class="custom-option-checkbox-svg" viewBox="0 0 21 21">
+                        <path d="M5,10.75 L8.5,14.25 L19.4,2.3 C18.8333333,1.43333333 18.0333333,1 17,1 L4,1 C2.35,1 1,2.35 1,4 L1,17 C1,18.65 2.35,20 4,20 L17,20 C18.65,20 20,18.65 20,17 L20,7.99769186"></path>
+                    </svg>
+                    <label class="custom-option-checkbox-label">Remember me</label>
+                </div>
+                <a class="custom-option-link" href="/auth/forgot-password">Forgot password?</a>
+            </div>
+            <button class="custom-card-button" type="submit">Sign up</button>
+            <div class="custom-card-footer">
+                <p class="custom-card-text">Already a member?</p>
+                <a class="custom-card-link" href="/auth/login">Sign In</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="registration-container" *ngIf="shopRegistratiomSuccess">
+    <div class="card custom-card">
+        <div class="card-body custom-card-body">
+            <h3 class="custom-card-title">Registration Almost Complete</h3>
+            <p class="custom-card-subtitle">Thank you for registering with us! You're almost there.</p>
+            <p class="custom-card-subtitle">To complete your registration, please verify your email address. A confirmation email has been sent to your inbox.</p>
+            <p class="custom-card-subtitle">By verifying your email, you'll gain full access to our services and receive important updates.</p>
+            <p class="custom-card-subtitle">If you did not register on our platform, please disregard this message.</p>
+            <p class="custom-card-subtitle">You can now close this tab or navigate to another page.</p>
+        </div>
+    </div>
+</div>

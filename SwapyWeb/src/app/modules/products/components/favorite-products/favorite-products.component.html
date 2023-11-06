@@ -1,0 +1,32 @@
+<div class="favorites-product-section-container">
+    <div class="product-section" *ngIf="!isNotFoundProducts">
+      <div class="product-section-table-of-contents">
+        <p>Favorite products</p>
+        <select class="form-select select-filter" [(ngModel)]="selectedFilter" (ngModelChange)="onSelectFilterChange()">
+          <option class="option" value="1">Newest first</option>
+          <option class="option" value="2">Oldest first</option>
+          <option class="option" value="4">Price: High to Low</option>
+          <option class="option" value="3">Price: Low to High</option>
+        </select>
+      </div>
+      <div class="products-container" *ngIf="!isLoadingProducts">
+        <app-product-card *ngFor="let product of favoriteProducts; trackBy: trackByProductId" [product]="product"></app-product-card>
+      </div>
+      <div class="products-container" *ngIf="isLoadingProducts">
+        <app-product-card *ngFor="let product of favoriteProducts; trackBy: trackByProductId;" [product]="product"></app-product-card>
+        <app-product-loading-card *ngFor="let loadingProduct of generateRange(!(favoriteProductsCount && allPages && currentPage) || (currentPage < allPages) ? pageSize : favoriteProductsCount - (pageSize * (currentPage - 1)));"></app-product-loading-card>
+      </div>
+      <button class="button-load-more" *ngIf="(currentPage && allPages) && currentPage < allPages" (click)="loadFavoriteProducts()">Load more</button>
+    </div>
+
+    <div class="product-section" *ngIf="isNotFoundProducts">
+      <div class="product-section-table-of-contents">
+        <p>Favorite products</p>
+      </div>  
+      <div class="product-section-not-found">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <p class="not-found-text">No product yet</p>
+          <p class="not-found-description">The shop has not added products yet</p>
+      </div>
+    </div>
+  </div>

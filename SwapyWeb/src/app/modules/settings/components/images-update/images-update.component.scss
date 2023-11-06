@@ -1,0 +1,103 @@
+@import "/src/colors.scss";
+
+$width: 100%;
+$trans-time: 300ms; 
+
+.images-update-container {
+    padding: 2rem;
+    display: flex;
+    margin-left: 1rem;
+    user-select: none;
+    border-radius: 1rem;
+    align-items: stretch;
+    flex-direction: column;
+    background-color: $additional;
+
+    p {
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+
+    .logo-container {
+        margin-bottom: 5rem;
+
+        img {
+            z-index: 2;
+            width: 20rem;
+            height: 20rem;
+            cursor: pointer;
+            object-fit: cover;
+            user-select: none;
+            border-radius: 100%;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+            -webkit-user-drag: none; /* Safari */
+            -khtml-user-drag: none; /* Konqueror HTML */
+            -moz-user-drag: none; /* Firefox */
+            -o-user-drag: none; /* Opera */
+
+            @media (hover: hover) {
+                &:hover { opacity: 0.7; }
+            }
+            
+            @media (hover: none) {
+                &:active { opacity: 0.7; }
+            }
+
+            @media (max-width: 480px) {
+                width: 15rem;
+                height: 15rem;
+            }
+
+            @media (max-width: 360px) {
+                width: 10rem;
+                height: 10rem;
+            }
+        }
+    }
+
+    .banner-container {
+
+        label { width: 100%; }
+
+        .shop-banner{
+            width: 100%;
+            height: 20rem;
+            padding: 1rem;
+            display: flex;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            border-radius: 1rem;
+            padding-left: 18rem;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(to bottom, $secondary, $primary);
+    
+            @media (max-width: 800px) {
+                height: 17rem;
+                padding-left: 15rem;
+            }
+            @media (max-width: 600px) {
+                height: 15rem;
+                padding-left: 13rem;
+            }
+            @media (max-width: 500px) {
+                height: 12rem;
+                padding-left: 10rem;
+            }
+
+            @media (hover: hover) {
+                &:hover { opacity: 0.7; }
+            }
+            
+            @media (hover: none) {
+                &:active { opacity: 0.7; }
+            }
+        }
+    }
+}

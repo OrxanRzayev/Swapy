@@ -1,0 +1,195 @@
+@import "/src/colors.scss";
+
+.chat-detail-container {
+    height: 100%;
+    border-radius: 0.6rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+
+    .chat-info{
+        height: 5rem;
+        background-color: $additional;
+        padding: 0.5rem 2rem;
+        display: flex;
+        align-items: center;
+        border-radius: 0.6rem 0.6rem 0 0;
+
+        @media (max-width: 860px) { border-radius: 0; }
+
+        .button-back{
+            display: none;
+            font-size: 1.8rem;
+            margin-right: 0.8rem;
+            @media (max-width: 860px) { display: block; cursor: pointer; }
+        }
+
+        .chat-image {
+            border-radius: 50%;
+            width: 4rem;
+            height: 4rem;
+            object-fit: cover;
+            user-select: none;
+            -webkit-user-drag: none; /* Safari */
+            -khtml-user-drag: none; /* Konqueror HTML */
+            -moz-user-drag: none; /* Firefox */
+            -o-user-drag: none; /* Opera */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .chat-name {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0;
+            margin-left: 1rem;
+            user-select: none;
+        }        
+    }
+
+    .chat-input-container{
+        display: flex;
+        flex-direction: column;
+        background-color: $secondary;
+        border-radius: 0.6rem;
+        position: relative;
+
+        .close-image{
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 2rem;
+            color: $primary;
+            z-index: 3;
+            cursor: pointer;
+        }
+        
+        .image-preview{
+            object-fit: contain;
+            margin: 1rem auto;
+            max-height: 10rem;
+
+            @media (max-width:1200px) {
+                max-width: 40rem;
+            }
+
+            @media (max-width:1100px) {
+                max-width: 30rem;
+            }
+
+            @media (max-width:1000px) {
+                max-width: 20rem;
+            }
+
+            @media (max-width:500px) {
+                max-width: 10rem;
+            }
+        }
+
+        .chat-input{
+            height: 5rem;
+            background-color: $primary;
+            color: $white;
+            padding: 0.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 0 0 0.6rem 0.6rem;
+    
+            @media (max-width: 860px) { border-radius: 0; }
+            
+            i{
+                font-size: 1.8rem;
+                cursor: pointer;
+            }
+    
+            input {
+                width: 100%;
+                margin: 0 3rem;
+                border-radius: 10px;
+                font-size: 1.2rem;
+                padding: 0.3rem 0.8rem;
+            }
+        }
+    }
+
+    .messages-wrapper{
+        height: 100%;
+        overflow: auto;
+
+        .message-info-container{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .messages-date {
+            margin: auto;
+            display: inline-block;
+
+            p {
+                display: inline-block;
+                font-weight: 500;
+                margin: 0.3rem 0;
+            }
+        }
+
+        .message-container{
+            width: auto;
+            height: auto;
+            display: flex;
+            margin: 1rem 2rem;
+        }
+    
+        .message{
+            width: auto;
+            height: auto;
+            display: inline-block;
+            min-width: 4rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+            .message-image{
+                border-radius: 10px 10px 0 0;
+                max-width: 22.5rem;
+                max-height: 15rem;
+                object-fit: contain;
+
+                @media(max-width: 480px) {
+                    max-width: 20rem;
+                    max-height: 12.5rem;
+                }
+
+                @media(max-width: 410px) {
+                    max-width: 15rem;
+                    max-height: 10rem;
+                }
+
+                @media(max-width: 340px) {
+                    max-width: 12rem;
+                    max-height: 10rem;
+                }
+            }
+
+            .message-text{
+                margin: 0.3rem 0.8rem;
+                p{
+                    margin-bottom: 0;
+                    font-size: 1.15rem;
+                }
+                .message-time{
+                    font-size: 0.8rem;
+                    text-align: end;
+                    margin-top: 0.15rem;
+                }
+            }
+        }
+        .my-message{
+            margin-left: auto;
+            background-color: $secondary;
+            border-radius: 10px 10px 0 10px;
+        }
+        .other-message{
+            margin-right: auto;
+            background-color: $additional;
+            border-radius: 10px 10px 10px 0;
+        }
+    }
+}

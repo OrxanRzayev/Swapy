@@ -1,0 +1,78 @@
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 24rem;
+    height: 33.61525rem;
+    border-radius: 3%;
+    background-color: whitesmoke;
+    user-select: none;
+    margin: 0.25rem 0;
+
+    @media (max-width: 450px) { width: 22rem; }
+    @media (max-width: 417px) { width: 20rem; }
+    @media (max-width: 346px) { width: 18rem; }
+    @media (max-width: 315px) { width: 16rem; }
+    @media (max-width: 283px) { width: 15rem; }
+}
+  
+.card.is-loading {
+  .image,
+  h2,
+  p {
+    background: #eee;
+    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+    background-size: 200% 100%;
+    animation: 1.5s shine linear infinite;
+  }
+
+  .image {
+    width: 24rem;
+    height: 16rem;
+    border-top-left-radius: 3%;
+    border-top-right-radius: 3%;
+    -webkit-user-drag: none; /* Safari */
+    -khtml-user-drag: none; /* Konqueror HTML */
+    -moz-user-drag: none; /* Firefox */
+    -o-user-drag: none; /* Opera */        
+    object-fit: cover;
+
+    @media (max-width: 450px) { width: 22rem; }
+    @media (max-width: 417px) { width: 20rem; }
+    @media (max-width: 346px) { width: 18rem; }
+    @media (max-width: 315px){
+        width: 16rem;
+        height: 15.2rem;
+    }
+    @media (max-width: 283px) { width: 15rem; }
+  }
+
+  .card-information{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding: 0.8rem;
+    .shop-card-title {
+        height: 2.25rem;
+    }
+    .shop-card-description {
+        height: 6.6rem;
+    }       
+    .shop-card-phoneNumber {
+        height: 1.65rem;
+    }
+    .shop-card-adsNumber {
+        height: 1.65rem;
+        margin-bottom: 0;
+    }
+  }
+
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
+  

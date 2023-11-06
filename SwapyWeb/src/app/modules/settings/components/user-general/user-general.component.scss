@@ -1,0 +1,222 @@
+@import "/src/colors.scss";
+
+$width: 100%; 
+$trans-time: 300ms; 
+$checkbox-border: #D1D6EE;
+
+.settings-general {
+    display: flex;
+    user-select: none;
+    align-items: center;
+    border-radius: 1rem;
+    justify-content: center;
+    background-color: $additional;
+
+    .custom-card-body {
+        display: flex;
+        margin: 0 2rem;
+        align-items: center;
+        flex-direction: column;
+        padding: 1rem 2rem 0 2rem;
+        
+        .custom-default-card-group { 
+            width: $width;
+            position: relative; 
+            margin-bottom: 1rem;
+            margin-top: 0.63rem; 
+
+            input[type="text"] {
+                border: none;
+                width: $width;
+                color: $black;
+                display: block;
+                border-radius: 0; 
+                background: none;
+                font-size: 1.05rem;
+                padding: 0.63rem 0.63rem 0.63rem 0.3rem;
+                border-bottom: 1px solid $black;
+                
+                &:focus { outline: none; } 
+                
+                &:focus ~ label, &:valid ~ label { 
+                    top: -0.7rem; 
+                    font-size: 0.8rem; 
+                    color: $black; 
+                } 
+                
+                &:focus ~ .bar:before { width: $width; } 
+            }
+
+            .input-placeholder {
+                left: 0.35rem; 
+                top: 0.60rem; 
+                font-size: 1rem; 
+                position: absolute; 
+                color: $black; 
+                font-weight: normal; 
+                pointer-events: none; 
+                transition: $trans-time ease all; 
+
+                @media (max-width: 302px) {
+                    font-size: 0.9rem; 
+                }
+
+                @media (max-width: 284px) {
+                    font-size: 0.8rem; 
+                }
+            } 
+            
+            .bar { 
+                position: relative; 
+                display: block; 
+                width: $width; 
+                
+                &:before { 
+                    width: 0; 
+                    left: 0%; 
+                    content: ''; 
+                    height: 2px; 
+                    bottom: 0px; 
+                    position: absolute; 
+                    background: $black; 
+                    transition: $trans-time ease all; 
+                } 
+            }
+
+            .input-error {
+                top: -0.7rem; 
+                transition: 0.3s;
+                font-size: 0.8rem; 
+                color: $invalid-red; 
+            }
+
+            .radio-groups {
+                display: flex;
+                justify-content: left;
+
+                .radio-group {
+                    display: flex;
+                    margin-right: 2rem;
+                    align-items: center;
+                    
+                    label { cursor: pointer; }
+
+                    input[type="radio"] {
+                        display: grid;
+                        width: 1.15em;
+                        height: 1.15em;
+                        cursor: pointer;
+                        appearance: none;
+                        border-radius: 50%;
+                        margin-right: 0.4rem;
+                        place-content: center;
+                        -webkit-appearance: none;
+                        border: 1px solid currentColor;
+                        transform: translateY(-0.075em);
+                    }
+
+                    input[type="radio"]::before {
+                        content: "";
+                        width: 0.65em;
+                        height: 0.65em;
+                        border-radius: 50%;
+                        transform: scale(0);
+                        background-color: $primary;
+                        transition: 120ms transform ease-in-out;
+                        box-shadow: inset 1em 1em var(--form-control-color);
+                    }
+                      
+                    input[type="radio"]:checked::before { transform: scale(1); }
+                }
+
+            }
+
+            @media (max-width: 319px) { 
+                p { font-size: 0.9rem; }
+            }
+
+            @media (max-width: 295px) { 
+                p { font-size: 0.83rem; }
+            }
+        } 
+        
+        .custom-invalid-card-group {
+            input[type="text"] {
+                color: $invalid-red;
+                border-bottom: 1px solid $invalid-red;
+                
+                &:focus ~ label, &:valid ~ label { color: $invalid-red; }
+            }
+
+            .input-placeholder { color: $invalid-red; }
+            
+            .bar { 
+                &:before {  background: $invalid-red; }
+            }
+
+            .input-error {
+                display: block;
+            }
+        }
+
+        .custom-valid-card-group {
+            input[type="text"] {
+                color: $valid-green;
+                border-bottom: 1px solid $valid-green;
+                
+                &:focus ~ label, &:valid ~ label { color: $valid-green; }
+            }
+
+            .input-placeholder { color: $valid-green; }
+            
+            .bar { 
+                &:before {  background: $valid-green; }
+            }
+
+            .input-error { display: none; }
+        }
+
+        .custom-card-button {
+            width: $width;
+            height: 2.6rem;
+            margin: 2rem 0;
+            color: $primary;
+            font-size: 1.3rem;
+            border-radius: 0.5rem;
+            border: 1px $primary solid;
+            background-color: $secondary;
+            transition: 0.3s;
+
+            @media (hover: hover) { 
+                &:hover { 
+                    color: $additional;
+                    border: 1px $secondary solid;
+                    background-color: $primary;
+                } 
+
+                &:active { 
+                    color:$additional;
+                    background-color: lighten($primary, 5%) 
+                }
+            } 
+            
+            @media (hover: none) { 
+                &:active { 
+                    color:$additional;
+                    background-color: lighten($primary, 5%) 
+                }
+            }
+
+            @media(max-width: 395px) { 
+                height: 2rem;
+                margin: 1rem 0;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 799px) { 
+            margin: 0 1rem;
+            padding: 1rem 1rem 0 1rem; 
+        }
+    }
+}

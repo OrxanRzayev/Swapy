@@ -1,0 +1,53 @@
+@import "/src/colors.scss";
+
+.message-toast-container {
+    width: 20rem;
+    user-select: none;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    
+    .message-toast {
+        display: flex;
+        grid-gap: 0.2rem;
+        flex-wrap: nowrap;
+        border-radius: 0.3rem;
+        align-items: flex-start;
+        flex-direction: column;
+        background-color: $additional;
+        
+        strong {
+            font-size: 1.1rem;
+            overflow: hidden; 
+            display: -webkit-box; 
+            -webkit-line-clamp: 1; 
+            overflow-wrap: break-word;
+            -webkit-box-orient: vertical; 
+            
+            & > i {
+                color: $primary;
+                margin-right: 0.1rem;
+            }
+        }
+
+        p {
+            margin: 0;
+            font-size: 1rem;
+            overflow: hidden; 
+            display: -webkit-box; 
+            -webkit-line-clamp: 1; 
+            overflow-wrap: break-all;
+            word-break: break-all;
+            -webkit-box-orient: vertical; 
+        }
+    }
+
+    @media(max-width: 400px) {
+        width: 15rem;
+
+        .message-toast {
+            grid-gap: 0.1rem;
+            strong { font-size: 1rem; }
+            p { font-size: 0.8rem; }
+        }
+    }
+}

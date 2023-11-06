@@ -1,0 +1,21 @@
+<div class="chat-list-container"> 
+    <button class="chat-list-button" (click)="switchChatList(true)" [ngClass]="{'active-button': isBuyersChats}">Sellers</button>
+    <button class="chat-list-button" (click)="switchChatList(false)" [ngClass]="{'active-button': !isBuyersChats}">Buyers</button>
+    <div class="chat-list-chats-container" *ngIf="chatList.length > 0">
+        <div class="chat-list-chats" [ngClass]="{'chat-list-chats-selected': chat.chatId === selectedChat?.chatId}" *ngFor="let chat of chatList" (click)="goToChat(chat)">
+            <img class="chat-image" [src]="chat.logo"/>
+            <p class="chat-title">{{chat.title}}</p> 
+            <div class="last-message-container">
+                <p *ngIf="chat.lastMessage && chat.lastMessageDateTime">{{chat.lastMessage}}</p> 
+                <div *ngIf="!chat.isReaded" class="new-message-icon"></div>
+            </div>
+            <p class="time-info" *ngIf="chat.lastMessage && chat.lastMessageDateTime">{{chat.lastMessageDateTime | customDateEn}}</p>
+        </div>
+    </div>
+    <div class="no-chats-message-container" *ngIf="chatList.length <= 0">
+        <div class="no-chats-message">
+            <i class="fa-solid fa-comments"></i>
+            <p>You don't have chats</p>
+        </div>
+    </div>
+</div>

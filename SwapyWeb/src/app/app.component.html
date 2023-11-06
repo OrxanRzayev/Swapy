@@ -1,0 +1,9 @@
+<div class="root">
+    <app-header *ngIf="IsShowHeader"></app-header>
+    <main>
+        <router-outlet class="router"></router-outlet>
+    </main>
+    <app-footer *ngIf="IsShowFooter"></app-footer>
+    <app-spinner></app-spinner>
+    <app-message-toast></app-message-toast>
+</div>

@@ -1,0 +1,35 @@
+<div class="chat-detail-container" *ngIf="selectedChat !== null">
+    <div class="chat-info">
+        <i (click)="backToList()" class="fa-solid fa-arrow-left button-back"></i>
+        <img class="chat-image" [src]="selectedChat.image">
+        <p class="chat-name">{{selectedChat.title}}</p>
+    </div>
+    <div #chatScrollContainer class="messages-wrapper">
+        <div class="message-info-container" *ngFor="let message of selectedChat.messages; let index = index;">
+            <div class="messages-date" *ngIf="index <= 0 || (!selectedChat.messages[index - 1]) || (!equalsDatesWithoutTime(message.dateTime, selectedChat.messages[index - 1].dateTime))">
+                <p>{{message.dateTime | chatDateEn}}</p>
+            </div>
+            <div class="message-container">
+                <div class="message" [ngClass]="message.senderId === myId ? 'my-message' : 'other-message'">
+                    <img *ngIf="message.image !== null" class="message-image" [src]="message.image">
+                    <div class="message-text">
+                        <p>{{message.text}}</p>
+                        <p class="message-time">{{message.dateTime | timespanToHoursMinutes}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="chat-input-container">
+        <i *ngIf="selectedFileToSend" class="fa-solid fa-circle-xmark close-image" (click)="closeFile()"></i>
+        <img #imageElement *ngIf="selectedFileToSend" class="image-preview">
+        <div class="chat-input">
+            <label for="send-file-input">
+                <i class="fa-solid fa-note-sticky"></i>
+            </label>
+            <input id="send-file-input" class="collapse" type="file" [(ngModel)]="fileInputValue" (change)="selectFile($event)" [accept]="'image/png, image/jpg, image/jpeg'">
+            <input type="text" placeholder="Message" [(ngModel)]="inputTextToSend" (keyup.enter)="sendMessage()"/>
+            <i class="fa-solid fa-paper-plane" (click)="sendMessage()"></i>
+        </div>
+    </div>
+</div>

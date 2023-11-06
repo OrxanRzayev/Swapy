@@ -1,0 +1,252 @@
+@import "/src/colors.scss";
+
+$width: 100%;
+$trans-time: 300ms; 
+
+.email-verify-container {
+    height: 100%;
+    margin: auto;
+    display: grid;
+    max-width: 35rem;
+    user-select: none;
+    align-items: center;
+    padding-bottom: 5rem;
+    justify-content: center;
+    grid-template-columns: 1fr;
+    
+    .custom-card {
+        display: grid;
+        max-width: 35rem;
+        background-color: $additional;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        
+        @media (max-width: 580px) {
+            margin-top: 1rem; 
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+
+        .custom-card-body {
+            display: flex;
+            margin: 0 2rem;
+            align-items: center;
+            flex-direction: column;
+            
+            .custom-card-title { 
+                margin: 1rem 0; 
+                color: $primary; 
+                text-align: center;
+
+                @media (max-width: 286px) {
+                    margin-top: 0.5rem;
+                    margin-bottom: 1rem;
+                    font-size: calc(1.2rem + .9vw);
+                }
+
+                @media (min-width: 2560px) {
+                    margin-top: 0.5rem;
+                    margin-bottom: 1rem;
+                    font-size: calc(1.5rem + .9vw);
+                }
+
+                & > i { font-size: 1.4rem;}
+            }
+
+            .custom-card-subtitle {
+                margin-top: 0; 
+                color: $primary; 
+                text-align: center;
+                margin-bottom: 1rem;
+
+                @media (max-width: 374px) {
+                    font-size: 0.8rem;
+                }
+            }
+
+            .custom-default-card-group { 
+                width: $width;
+                position: relative; 
+                margin-bottom: 1rem;
+                margin-top: 0.63rem; 
+
+                input[type="text"] {
+                    border: none;
+                    width: $width;
+                    color: $black;
+                    display: block;
+                    border-radius: 0; 
+                    background: none;
+                    font-size: 1.05rem;
+                    padding: 0.63rem 0.63rem 0.63rem 0.3rem;
+                    border-bottom: 1px solid $black;
+                    
+                    &:focus { outline: none; } 
+                    
+                    &:focus ~ label, &:valid ~ label { 
+                        top: -0.7rem; 
+                        font-size: 0.8rem; 
+                        color: $black; 
+                    } 
+                    
+                    &:focus ~ .bar:before { width: $width; } 
+                }
+
+                .input-placeholder {
+                    left: 0.35rem; 
+                    top: 0.60rem; 
+                    font-size: 1rem; 
+                    position: absolute; 
+                    color: $black; 
+                    font-weight: normal; 
+                    pointer-events: none; 
+                    transition: $trans-time ease all; 
+
+                    @media (max-width: 302px) { font-size: 0.9rem; }
+
+                    @media (max-width: 284px) { font-size: 0.8rem; }
+                } 
+                
+                .bar { 
+                    position: relative; 
+                    display: block; 
+                    width: $width; 
+                    
+                    &:before { 
+                        width: 0; 
+                        left: 0%; 
+                        content: ''; 
+                        height: 2px; 
+                        bottom: 0px; 
+                        position: absolute; 
+                        background: $black; 
+                        transition: $trans-time ease all; 
+                    } 
+                }
+
+                .input-error {
+                    top: -0.7rem; 
+                    transition: 0.3s;
+                    font-size: 0.8rem; 
+                    color: $invalid-red; 
+                }
+            } 
+            
+            .custom-invalid-card-group {
+                input[type="text"] {
+                    color: $invalid-red;
+                    border-bottom: 1px solid $invalid-red;
+                    
+                    &:focus ~ label, &:valid ~ label { color: $invalid-red; }
+                }
+
+                .input-placeholder { color: $invalid-red; }
+                
+                .bar { 
+                    &:before {  background: $invalid-red; }
+                }
+
+                .input-error {
+                    display: block;
+                }
+            }
+
+            .custom-valid-card-group {
+                input[type="text"] {
+                    color: $valid-green;
+                    border-bottom: 1px solid $valid-green;
+                    
+                    &:focus ~ label, &:valid ~ label { color: $valid-green; }
+                }
+
+                .input-placeholder { color: $valid-green; }
+                
+                .bar { 
+                    &:before {  background: $valid-green; }
+                }
+
+                .input-error { display: none; }
+            }
+
+            .custom-card-button {
+                width: $width;
+                height: 2.6rem;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                color: $primary;
+                font-size: 1.3rem;
+                border-radius: 0.5rem;
+                border: 1px $primary solid;
+                background-color: $secondary;
+                transition: 0.3s;
+
+                @media (hover: hover) { 
+                    &:hover {
+                        color: $additional;
+                        border: 1px $secondary solid;
+                        background-color: $primary;
+                    }
+
+                    &:active { 
+                        color:$additional;
+                        background-color: lighten($primary, 5%) 
+                    }
+                } 
+
+                @media (hover: none) { 
+                    &:active { 
+                        color:$additional;
+                        background-color: lighten($primary, 5%) 
+                    }
+                }
+
+
+                @media(max-width: 395px) { 
+                    height: 2rem;
+                    margin-top: 1rem;
+                    font-size: 1.1rem;
+                }
+            }
+
+            .custom-card-form-error {
+                transition: 0.3s;
+                text-align: center;
+                font-size: 0.8rem; 
+                margin-bottom: 1rem;
+                color: $invalid-red; 
+            }
+
+            .custom-card-footer {
+                display: flex;
+                
+                @media (max-width: 362px) {
+                    align-items: center;
+                    flex-direction: column;
+
+                    .custom-card-text {
+                        margin: 0;
+                    }
+                }
+
+                @media (max-width: 299px) { font-size: 0.86rem; }
+
+                .custom-card-link { 
+                    color: $primary; 
+                    font-weight: 500;
+                    transition: 0.3s;
+                    text-decoration: none; 
+
+                    @media (hover: hover) { 
+                        &:hover { color: lighten($primary, 15%) } 
+                    } 
+    
+                    @media (hover: none) { 
+                        &:active { color: lighten($primary, 15%) } 
+                    }
+
+
+                    @media (min-width: 363px) { margin-left: 0.2rem; }
+                }
+            }
+        }
+    }
+}

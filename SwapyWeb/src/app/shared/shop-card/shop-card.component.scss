@@ -1,0 +1,99 @@
+@import "/src/colors.scss";
+
+a {
+    text-decoration: none;
+    color: black;
+    height: 100%;
+}
+
+.shop-card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 24rem;
+    height: 33.61525rem;
+    border-radius: 3%;
+    background-color: whitesmoke;
+    user-select: none;
+    margin: 0.25rem 0;
+
+    @media (max-width: 450px) { width: 22rem; }
+    @media (max-width: 417px) { width: 20rem; }
+    @media (max-width: 346px) { width: 18rem; }
+    @media (max-width: 315px) { width: 16rem; }
+    @media (max-width: 283px) { width: 15rem; }
+
+    .shop-card-image {
+        width: 24rem;
+        height: 16rem;
+        border-top-left-radius: 3%;
+        border-top-right-radius: 3%;
+        -webkit-user-drag: none; /* Safari */
+        -khtml-user-drag: none; /* Konqueror HTML */
+        -moz-user-drag: none; /* Firefox */
+        -o-user-drag: none; /* Opera */        
+        object-fit: cover;
+
+        @media (max-width: 450px) { width: 22rem; }
+        @media (max-width: 417px) { width: 20rem; }
+        @media (max-width: 346px) { width: 18rem; }
+        @media (max-width: 315px){
+            width: 16rem;
+            height: calc(16rem - 5%);
+        }
+        @media (max-width: 283px) { width: 15rem; }
+    }
+    .shop-card-information {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        padding: 0.8rem;
+        cursor: pointer;
+
+        .shop-card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            overflow-wrap: break-word;
+            -webkit-line-clamp: 1; 
+            display: -webkit-box; 
+            -webkit-box-orient: vertical; 
+            overflow: hidden; 
+        }
+        .shop-card-description {
+            font-size: 1.1rem;
+            overflow-wrap: break-word;
+            -webkit-line-clamp: 4; 
+            display: -webkit-box; 
+            -webkit-box-orient: vertical; 
+            overflow: hidden; 
+        }
+        .shop-card-group {
+            display: flex;
+            align-items: baseline;
+
+            i { color: $primary; }
+        }            
+        .shop-card-phoneNumber {
+            font-size: 1.1rem;
+            font-weight: 500;
+            overflow-wrap: break-word;
+            -webkit-line-clamp: 4; 
+            display: -webkit-box; 
+            -webkit-box-orient: vertical; 
+            overflow: hidden; 
+            margin-left: 0.2rem;
+        }
+        .shop-card-adsNumber {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0;
+            overflow-wrap: break-word;
+            -webkit-line-clamp: 4; 
+            display: -webkit-box; 
+            -webkit-box-orient: vertical; 
+            overflow: hidden; 
+        }
+    }
+}

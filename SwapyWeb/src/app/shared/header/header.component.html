@@ -1,0 +1,71 @@
+<header id="header-navigation" class="navbar header-navigation">
+    <app-category-tree></app-category-tree>
+    <div class="header-wrapper container-fluid">
+        <a class="header-banner" routerLink="/" routerLinkActive="active">
+            <h1 class="banner-text">Swapy</h1>
+            <img alt="logo swapy" class="banner-image" height="45" src="../../../assets/images/swapy-logo.png">
+        </a>
+
+        <div class="header-content">
+
+            <button title="Departments" (click)="toggleCategoryMenuAnimation()" class="header-button-departments" href="/createAd">
+                <i class="fa-solid fa-qrcode"></i>
+                <span>Departments</span>
+            </button>
+
+            <form class="header-search-form" [formGroup]="searchQueryForm" (submit)="onSearch()">
+                <input formControlName="title" class="header-search-field" id="search" type="text" placeholder="Search..." />
+                <button class="header-search-btn">
+                    <span><i class="header-search-lens fa-solid fa-magnifying-glass"></i></span>
+                </button>
+            </form>
+
+            <!-- <div class="dropdown">
+                <button [innerHTML]="buttonText" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                <ul class="dropdown-menu">
+                    <li><button (click)="selectLanguage('English')" class="dropdown-item"><span class="fi fi-gb"></span> EN</button></li>
+                    <li><button (click)="selectLanguage('Russian')" class="dropdown-item"><span class="fi fi-ru"></span> RU</button></li>
+                    <li><button (click)="selectLanguage('Azerbaijani')" class="dropdown-item"><span class="fi fi-az"></span> AZ</button></li>
+                </ul>
+            </div> -->
+            
+            <button class="header-navbar-toggler" type="button" (click)="toggleCollapsedMenuAnimation('navbarMenu')">
+                <span><i class="fa-solid fa-bars"></i></span>
+            </button>
+
+            <div id="navbarMenu" class="header-offnav">
+                <app-auth></app-auth>
+            </div>
+        </div>
+
+        <div class="header-content-collapsed">
+            <button class="header-navbar-toggler" type="button" (click)="toggleCollapsedMenuAnimation('navbarCollapsedMenu')">
+                <span><i class="fa-solid fa-bars"></i></span>
+            </button>
+
+            <button (click)="toggleCategoryMenuAnimation()" class="header-button-departments" href="/createAd">
+                <i class="fa-solid fa-qrcode"></i>
+            </button>
+
+            <div id="navbarCollapsedMenu" class="header-offnav">
+                <form class="header-search-form" [formGroup]="searchQueryForm" (submit)="onSearch()">
+                    <input formControlName="title" class="header-search-field" id="searchCollapsed" type="text" placeholder="Search..." />
+                    <button class="header-search-btn">
+                        <span><i class="header-search-lens fa-solid fa-magnifying-glass"></i></span>
+                    </button>
+                </form>
+
+                <app-auth></app-auth>
+
+                <!-- <div class="dropdown">
+                    <button [innerHTML]="buttonText" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                    <ul class="dropdown-menu">
+                        <li><button (click)="selectLanguage('English')" class="dropdown-item"><span class="fi fi-gb"></span> EN</button></li>
+                        <li><button (click)="selectLanguage('Russian')" class="dropdown-item"><span class="fi fi-ru"></span> RU</button></li>
+                        <li><button (click)="selectLanguage('Azerbaijani')" class="dropdown-item"><span class="fi fi-az"></span> AZ</button></li>
+                    </ul>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,173 @@
+@import "/src/colors.scss";
+
+.header-account {
+    display: flex;
+    align-items: center;
+    margin-right: -1rem;
+
+    > *:last-child { margin-right: 0 !important; }
+
+    .header-link {    
+        display: flex;
+        background-color: transparent;
+        border: 0;
+        color: $primary;
+        font-weight: 500;
+        align-items: center;
+        margin-right: 0.5rem;
+        border-radius: 0.3rem;
+        text-decoration: none;
+        padding: 0.9rem 0.9rem;
+        transition: all 0.3s ease;
+        
+        @media (hover: hover) {
+            &:hover{
+                color: $additional;
+                background: $primary !important; 
+            }
+        }
+        @media (hover: none) {
+          &:active{
+            color: $additional;
+            background: $primary !important; 
+          }
+        }
+
+        span { margin-left: 0.4rem; }
+
+        i {
+            position: relative;
+            .new-message-icon{
+                background-color: $notification-red;
+                border-radius: 50%;
+                width: 0.5rem;
+                height: 0.5rem;
+                margin: auto;
+                position: absolute;
+                right: -4px;
+                top: -4px;
+            }
+        }
+    }
+
+    @media (max-width: 1180px) { display: none; }
+}
+
+.header-account-minimized {
+    display: none;
+    align-items: center;
+    margin-right: -1rem;
+
+    > *:last-child { margin-right: 0 !important; }
+
+    .header-link {    
+        display: flex;
+        background-color: transparent;
+        border: 0;
+        color: $primary;
+        font-weight: 500;
+        align-items: center;
+        margin-right: 0.5rem;
+        border-radius: 0.3rem;
+        text-decoration: none;
+        padding: 0.9rem 0.9rem;
+        transition: all 0.3s ease;
+        
+        @media (hover: hover) {
+            &:hover{
+                color: $additional;
+                background: $primary !important; 
+            }
+        }
+        @media (hover: none) {
+            &:active{
+              color: $additional;
+              background: $primary !important; 
+            }
+        }
+
+        span { margin-left: 0.4rem; }
+
+        i {
+            position: relative;
+            
+            .new-message-icon {
+                top: -4px;
+                right: -4px;
+                margin: auto;
+                width: 0.5rem;
+                height: 0.5rem;
+                border-radius: 50%;
+                position: absolute;
+                background-color: $notification-red;
+            }
+        }
+    }
+
+    @media (max-width: 1180px) { display: flex; }
+
+    @media (max-width: 840px) { display: none; }
+}
+
+.header-account-collapsed {
+    display: none;
+
+    ul {
+        padding: 0;
+        width: 15rem;
+        margin-bottom: 0;
+        list-style: none;
+
+        @media (max-width: 530px) { width: 100%; }
+
+        li {
+            cursor: pointer;
+            transition: 0.3s;
+
+            @media (hover: hover) {
+                &:hover{
+                    background-color: $additional;
+                }
+            }
+            @media (hover: none) {
+              &:active{
+                background-color: $additional;
+              }
+            }
+
+            .header-link {
+                display: flex;
+                background-color: transparent;
+                border: 0;
+                width: 100%;
+                color: $primary;
+                font-weight: 500;
+                align-items: center;
+                margin-right: 0.5rem;
+                border-radius: 0.3rem;
+                text-decoration: none;
+                padding: 0.9rem 0.9rem;
+                transition: all 0.3s ease;
+
+                &:focus { outline: none; }
+
+                i {
+                    margin-right: 1rem;
+                    position: relative;
+                    .new-message-icon{
+                        background-color: $notification-red;
+                        border-radius: 50%;
+                        width: 0.5rem;
+                        height: 0.5rem;
+                        margin: auto;
+                        position: absolute;
+                        right: -4px;
+                        top: -4px;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 840px) { display: flex; }
+}

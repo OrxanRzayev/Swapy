@@ -1,0 +1,58 @@
+<div class="login-container">
+    <div class="card custom-card">
+        <form class="card-body custom-card-body" [formGroup]="loginForm" (submit)="onSubmit()">
+            <h3 class="custom-card-title">Welcome back!</h3>
+            <div id="emailOrPhoneGroup" class="custom-default-card-group">
+                <input type="text" required="required" formControlName="emailOrPhone" (blur)="onInputBlur('emailOrPhone')"/>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label class="input-placeholder">Email or Phone number</label>
+                <ng-container *ngIf="emailOrPhone?.touched">
+                    <label *ngIf="emailOrPhone?.errors?.['required']" class="input-error">* Email or Phone number field is required</label>
+                    <label *ngIf="emailOrPhone?.errors?.['pattern']" class="input-error">* Invalid Email or Phone number field</label>
+                </ng-container>
+            </div>
+            <div id="passwordGroup" class="custom-default-card-group">
+                <div style="position: relative">
+                    <input id="passwordInput" [type]="showPassword ? 'text' : 'password'" required="required" formControlName="password" (blur)="onInputBlur('password')">
+                    <i id="eye-icon" class="fa-solid fa-eye eye-icon" (click)="onShowPassword()"></i>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label class="input-placeholder">Password</label>
+                </div>
+                <ng-container *ngIf="password?.touched">
+                    <label *ngIf="password?.errors?.['required']" class="input-error">* Password field is required</label>
+                    <label *ngIf="password?.errors?.['pattern']" class="input-error">* Password field must be at least 8 and no more than 32 characters long, contain at least one number, one uppercase, one lowercase, and one special character</label>
+                </ng-container>
+            </div>
+            <div class="custom-card-option">
+                <div class="custom-option-checkbox-group">
+                    <input formControlName="rememberMe" type="checkbox"/>
+                    <svg class="custom-option-checkbox-svg" viewBox="0 0 21 21">
+                        <path d="M5,10.75 L8.5,14.25 L19.4,2.3 C18.8333333,1.43333333 18.0333333,1 17,1 L4,1 C2.35,1 1,2.35 1,4 L1,17 C1,18.65 2.35,20 4,20 L17,20 C18.65,20 20,18.65 20,17 L20,7.99769186"></path>
+                    </svg>
+                    <label class="custom-option-checkbox-label">Remember me</label>
+                </div>
+                <a class="custom-option-link" href="/auth/forgot-password">Forgot password?</a>
+            </div>
+            <button class="custom-card-button" type="submit">Sign in</button>
+            <label *ngIf="loginError" class="custom-card-form-error">* Invalid Email/Phone or Password. Please try again.</label>
+            <label *ngIf="emailNotConfirmed" class="custom-card-form-error">* Confirm your email address before signing in.</label>
+            <div class="custom-card-footer">
+                <p class="custom-card-text">Don't have account yet?</p>
+                <a class="custom-card-link" type="button" onclick="window.dialog.showModal();">Sign Up</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<dialog id="dialog" class="custom-modal" role="dialog">
+    <div class="custom-modal-header">
+        <h4 class="custom-modal-header-title">Register as</h4>
+        <button class="custom-modal-header-close" aria-label="close" onclick="window.dialog.close();">❌</button>
+    </div>
+    <div class="custom-modal-body">
+        <a class="custom-modal-link" href="/auth/registration/user">User</a>
+        <a class="custom-modal-link" href="/auth/registration/shop">Shop</a>
+    </div>
+</dialog>

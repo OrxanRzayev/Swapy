@@ -1,0 +1,339 @@
+<div class="product-add-wrapper" *ngIf="!isAddedSuccessful">
+    <div class="product-add-box">
+
+        <div class="product-add-box-wrappers-container">
+            <div class="product-add-box-wrappers-container-section">
+                <div class="product-add-box-wrapper">
+
+                    <p class="information-title">
+                        Title:
+                    </p>
+                    <label class="input-label">
+                        <input minlength="3" maxlength="128" id="price-input" type="text" [(ngModel)]="selectedTitle">
+                    </label>
+
+                    <p class="information-title">
+                        Description:
+                    </p>
+                    <label class="textarea-label">
+                        <textarea maxlength="500" [(ngModel)]="selectedDescription" placeholder="Enter description..."></textarea>
+                    </label>
+
+
+                    <p class="information-title">
+                        Category:
+                    </p>
+                    <div class="select-container">
+                        <select class="form-select select-filter" [(ngModel)]="selectedCategoryId" (ngModelChange)="onSelectCategoryChange()">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let category of categories;" class="option" [value]="category.id">{{category.value}}</option>
+                        </select>
+                        <select *ngFor="let subcategories of generateRange(subcategoriesHierarchy.length); let i=index;" class="form-select select-filter" [(ngModel)]="selectedSubcategoriesId[i]" (ngModelChange)="onSelectSubcategoryChange(i)">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let subcategory of subcategoriesHierarchy[i];" class="option" [value]="subcategory.id">{{subcategory.value}}</option>
+                        </select>
+                    </div>
+        
+                    <p class="information-title">
+                        City:
+                    </p>
+                    <div class="select-container">
+                        <select class="form-select select-filter" [(ngModel)]="selectedCityId">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let city of cities;" class="option" [value]="city.id">{{city.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title">
+                        Price:
+                    </p>
+                    <div class="d-flex">
+                        <label class="input-label">
+                            <input id="price-input" type="number" [value]="price" [min]="minPrice" [max]="maxPrice" (input)="handlePositiveNumberInput($event)">
+                            <span class="input-label-text">{{selectedCurrencySymbol}}</span>
+                        </label>
+                        <div class="select-container">
+                            <select class="form-select select-filter" [(ngModel)]="selectedCurrencyId" (ngModelChange)="onSelectCurrencyChange()">
+                                <option class="option" [value]="undefined">Unselected</option>
+                                <option *ngFor="let currency of currencies;" class="option" [value]="currency.id">{{currency.value}}</option>
+                            </select>   
+                        </div>
+                    </div>
+
+                    <p class="information-title">
+                        Images:
+                    </p>
+                    <div class="images-input">
+                        <ngx-dropzone [maxFileSize]="20971520" [accept]="'image/png, image/jpg, image/jpeg'" (change)="onSelectImage($event)">
+                            <ngx-dropzone-label>Drop product images.</ngx-dropzone-label>
+                            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let image of selectedImages" [file]="image" [removable]="true" (removed)="onRemoveImage(image)"></ngx-dropzone-image-preview>
+                        </ngx-dropzone>
+                    </div>
+                </div>
+            </div>
+            <div class="product-add-box-wrappers-container-section" *ngIf="selectedCategoryType != undefined">
+                <div class="product-add-box-wrapper">
+                    <p class="information-title" *ngIf="selectedCategoryType == 0">
+                        Breed:
+                    </p>
+                    <div class="select-container" *ngIf="selectedCategoryType == 0">
+                        <select class="form-select select-filter" [(ngModel)]="selectedBreedId">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let breed of breeds;" class="option" [value]="breed.id">{{breed.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title" *ngIf="(selectedCategoryType !== undefined && selectedCategoryType >= 1 && selectedCategoryType <= 4) || selectedCategoryType == 6">
+                        Is new:
+                    </p>
+                    <div class="radio-groups" *ngIf="(selectedCategoryType !== undefined && selectedCategoryType >= 1 && selectedCategoryType <= 4) || selectedCategoryType == 6">  
+                        <div class="radio-group">
+                          <input id="is-new-radio-yes" type="radio" name="in-new" [(ngModel)]="selectedIsNewFilter" [value]="1"/>
+                          <label for="is-new-radio-yes">Yes</label>
+                        </div>
+                      
+                        <div class="radio-group">
+                          <input id="is-new-radio-no" type="radio" name="in-new" [(ngModel)]="selectedIsNewFilter" [value]="-1"/>
+                          <label for="is-new-radio-no">No</label>
+                        </div>
+                    </div>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 1">
+                        Miliage:
+                    </p>
+                    <label class="input-label" *ngIf="selectedCategoryType == 1">
+                        <input id="miliage-input" type="number" [value]="miliage" [min]="minMiliage" [max]="maxMiliage" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">km</span>
+                    </label>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 1">
+                        Engine capacity:
+                    </p>
+                    <label class="input-label" *ngIf="selectedCategoryType == 1">
+                        <input id="engine-capacity-input" type="number" [value]="engineCapacity" [min]="minEngineCapacity" [max]="maxEngineCapacity" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">cc</span>
+                    </label>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 1">
+                        Release year:
+                    </p>
+                    <label class="input-label" *ngIf="selectedCategoryType == 1">
+                        <input id="release-year-input" type="number" [value]="releaseYear" [min]="olderReleaseYear" [max]="newerReleaseYear" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">year</span>
+                    </label>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 1">
+                        Fuel type:
+                    </p>
+                    <div class="select-container" *ngIf="selectedCategoryType == 1">
+                        <select class="form-select select-filter" [(ngModel)]="selectedFuelTypeId">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let fuelType of fuelTypes;" class="option" [value]="fuelType.id">{{fuelType.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 1 || (selectedCategoryType == 3 && selectedModelId !== 'undefined')">
+                        Color:
+                    </p>
+                    <div class="select-container" *ngIf="selectedCategoryType == 1 || (selectedCategoryType == 3 && selectedModelId !== 'undefined')">
+                        <select class="form-select select-filter" [(ngModel)]="selectedColorId">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let color of colors;" class="option" [value]="color.id">{{color.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 1">
+                        Transmission type:
+                    </p>
+                    <div class="select-container" *ngIf="selectedCategoryType == 1">
+                        <select class="form-select select-filter" [(ngModel)]="selectedTransmissionTypeId">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let transmissionType of transmissionTypes;" class="option" [value]="transmissionType.id">{{transmissionType.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title" *ngIf="(selectedCategoryType !== undefined && selectedCategoryType == 1 || (selectedCategoryType == 2 && selectedClothesViewId !== 'undefined') || selectedCategoryType == 3) || selectedCategoryType == 6">
+                        Brand:
+                    </p>
+                    <div class="select-container" *ngIf="(selectedCategoryType !== undefined && selectedCategoryType == 1 || (selectedCategoryType == 2 && selectedClothesViewId !== 'undefined') || selectedCategoryType == 3) || selectedCategoryType == 6">
+                        <select class="form-select select-filter" [(ngModel)]="selectedBrandId" (ngModelChange)="onSelectedBrandChange()">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let brand of brands;" class="option" [value]="brand.id">{{brand.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 2">
+                        Type of clothing:
+                    </p>
+                    <div class="radio-groups" *ngIf="selectedCategoryType == 2">
+                        <div class="radio-group">
+                          <input id="clothes-type-radio-adult" type="radio" name="in-clothes-type" [(ngModel)]="selectedClothesTypeFilter" (ngModelChange)="onSelectedClothesTypeChange()" [value]="1"/>
+                          <label for="clothes-type-radio-adult">Adult</label>
+                        </div>
+                      
+                        <div class="radio-group">
+                          <input id="clothes-type-radio-childish" type="radio" name="in-clothes-type" [(ngModel)]="selectedClothesTypeFilter" (ngModelChange)="onSelectedClothesTypeChange()" [value]="-1"/>
+                          <label for="clothes-type-radio-childish">Childish</label>
+                        </div>
+                    </div>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 2 && selectedSubcategoriesId.length > 0 && selectedSubcategoriesId[selectedSubcategoriesId.length - 1] != 'undefined' && selectedClothesTypeFilter != 0">
+                        Clothes size:
+                    </p>
+                    <div class="select-container" *ngIf="selectedCategoryType == 2 && selectedSubcategoriesId.length > 0 && selectedSubcategoriesId[selectedSubcategoriesId.length - 1] != 'undefined' && selectedClothesTypeFilter != 0">
+                        <select class="form-select select-filter" [(ngModel)]="selectedClothesSizeId">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let clothesSize of clothesSizes;" class="option" [value]="clothesSize.id">{{clothesSize.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 2">
+                        Gender:
+                    </p>
+                    <div class="select-container" *ngIf="selectedCategoryType == 2">
+                        <select class="form-select select-filter" [(ngModel)]="selectedGenderId" (ngModelChange)="onSelectedGenderChange()">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let gender of genders;" class="option" [value]="gender.id">{{gender.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 2">
+                        Clothes season:
+                    </p>
+                    <div class="select-container" *ngIf="selectedCategoryType == 2">
+                        <select class="form-select select-filter" [(ngModel)]="selectedClothesSeasonId">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let clothesSeason of clothesSeasons;" class="option" [value]="clothesSeason.id">{{clothesSeason.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 2 && selectedGenderId && selectedGenderId != 'undefined' && selectedClothesTypeFilter != 0 && selectedSubcategoriesId.length > 0 && selectedSubcategoriesId[selectedSubcategoriesId.length - 1] != 'undefined'">
+                        Clothes view:
+                    </p>
+                    <div class="select-container" *ngIf="selectedCategoryType == 2 && selectedGenderId && selectedGenderId != 'undefined' && selectedClothesTypeFilter != 0 && selectedSubcategoriesId.length > 0 && selectedSubcategoriesId[selectedSubcategoriesId.length - 1] != 'undefined'">
+                        <select class="form-select select-filter" [(ngModel)]="selectedClothesViewId" (ngModelChange)="onSelectedClothesViewChange()">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let clothesView of clothesViews;" class="option" [value]="clothesView.id">{{clothesView.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title" *ngIf="(selectedCategoryType == 3 && selectedModelId !== 'undefined')">
+                        Memory:
+                    </p>
+                    <div class="select-container" *ngIf="(selectedCategoryType == 3 && selectedModelId !== 'undefined')">
+                        <select class="form-select select-filter" [(ngModel)]="selectedMemoryId">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let memory of memories;" class="option" [value]="memory.id">{{memory.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title" *ngIf="((selectedCategoryType == 1 || selectedCategoryType == 3) && selectedBrandId !== 'undefined')">
+                        Model:
+                    </p>
+                    <div class="select-container" *ngIf="((selectedCategoryType == 1 || selectedCategoryType == 3) && selectedBrandId !== 'undefined')">
+                        <select class="form-select select-filter" [(ngModel)]="selectedModelId" (ngModelChange)="onSelectedModelChange()">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let model of models;" class="option" [value]="model.id">{{model.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 5">
+                        Area:
+                    </p>
+                    <label class="input-label" *ngIf="selectedCategoryType == 5">
+                        <input id="area-input" type="number" [value]="area" [min]="minArea" [max]="maxArea" (input)="handlePositiveNumberInput($event)">
+                        <span class="input-label-text">m²</span>
+                    </label>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 5">
+                        Rooms:
+                    </p>
+                    <label class="input-label" *ngIf="selectedCategoryType == 5">
+                        <input id="rooms-input" type="number" [value]="rooms" [min]="minRooms" [max]="maxRooms" (input)="handlePositiveNumberInput($event)">
+                    </label>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 5">
+                        Rent or sale:
+                    </p>
+                    <div class="radio-groups" *ngIf="selectedCategoryType == 5">
+                        <div class="radio-group">
+                          <input id="is-rent-radio-yes" type="radio" name="in-rent" [(ngModel)]="selectedIsRentFilter" [value]="1"/>
+                          <label for="is-rent-radio-yes">Rent</label>
+                        </div>
+                      
+                        <div class="radio-group">
+                          <input id="is-rent-radio-no" type="radio" name="in-rent" [(ngModel)]="selectedIsRentFilter" [value]="-1"/>
+                          <label for="is-rent-radio-no">Sale</label>
+                        </div>
+                    </div>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 6">
+                        TV type:
+                    </p>
+                    <div class="select-container" *ngIf="selectedCategoryType == 6">
+                        <select class="form-select select-filter" [(ngModel)]="selectedTvTypeId">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let tvType of tvTypes;" class="option" [value]="tvType.id">{{tvType.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 6">
+                        Is smart:
+                    </p>
+                    <div class="radio-groups" *ngIf="selectedCategoryType == 6">
+                        <div class="radio-group">
+                          <input id="is-smart-radio-yes" type="radio" name="in-smart" [(ngModel)]="selectedIsSmartFilter" [value]="1"/>
+                          <label for="is-smart-radio-yes">Yes</label>
+                        </div>
+                    
+                        <div class="radio-group">
+                          <input id="is-smart-radio-no" type="radio" name="in-smart" [(ngModel)]="selectedIsSmartFilter" [value]="-1"/>
+                          <label for="is-smart-radio-no">No</label>
+                        </div>
+                    </div>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 6">
+                        Screen resolution:
+                    </p>
+                    <div class="select-container" *ngIf="selectedCategoryType == 6">
+                        <select class="form-select select-filter" [(ngModel)]="selectedScreenResolutionId">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let screenResolution of screenResolutions;" class="option" [value]="screenResolution.id">{{screenResolution.value}}</option>
+                        </select>   
+                    </div>
+        
+                    <p class="information-title" *ngIf="selectedCategoryType == 6">
+                        Screen diagonal:
+                    </p>
+                    <div class="select-container" *ngIf="selectedCategoryType == 6">
+                        <select class="form-select select-filter" [(ngModel)]="selectedScreenDiagonalId">
+                            <option class="option" [value]="undefined">Unselected</option>
+                            <option *ngFor="let screenDiagonal of screenDiagonals;" class="option" [value]="screenDiagonal.id">{{screenDiagonal.value}}</option>
+                        </select>   
+                    </div>
+        
+                </div>
+            </div>
+            <div class="product-add-box-wrappers-container-error" *ngIf="errorText !== null">
+                <p [textContent]="errorText"></p>
+            </div>
+            <div class="product-add-box-wrappers-container-buttons">
+                <button (click)="back()">Back</button>
+                <button (click)="createProduct()">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="success-notification-window" *ngIf="isAddedSuccessful">
+    <div class="card custom-card">
+        <div class="card-body custom-card-body">
+            <h3 class="custom-card-title">Product added successful <i class="fa-solid fa-circle-check"></i></h3>
+            <p class="custom-card-subtitle">Congratulations, your product has been successfully added!</p>
+            <p class="custom-card-subtitle">We are pleased to inform you that your new product has been successfully added to our website.</p>
+            <p class="custom-card-subtitle">Your item is now available to millions of users, and you can start receiving inquiries and orders.</p>
+            <button class="custom-card-button" type="submit" (click)="back()">Back</button>
+        </div>
+    </div>
+</div>

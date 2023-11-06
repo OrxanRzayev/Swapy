@@ -1,0 +1,128 @@
+<div class="settings-general">
+    <form class="card-body custom-card-body" [formGroup]="shopGeneralForm" (submit)="onSubmit()">
+        <div id="shopNameGroup" class="custom-default-card-group">
+            <input type="text" required="required" formControlName="shopName" (blur)="onInputBlur('shopName')"/>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label class="input-placeholder">Shop name</label>
+            <ng-container *ngIf="shopName?.touched">
+                <label *ngIf="shopName?.errors?.['required']" class="input-error">* Shop name field is required</label>
+                <label *ngIf="shopName?.errors?.['pattern']" class="input-error">* Invalid Shop name field</label>
+                <label *ngIf="validShopName" class="input-error">* Shop name already taken</label>
+            </ng-container>
+        </div>
+        <div id="phoneNumberGroup" class="custom-default-card-group">
+            <input type="text" required="required" formControlName="phoneNumber" (blur)="onInputBlur('phoneNumber')"/>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label class="input-placeholder">Phone number</label>
+            <ng-container *ngIf="phoneNumber?.touched">
+                <label *ngIf="phoneNumber?.errors?.['required']" class="input-error">* Phone number field is required</label>
+                <label *ngIf="phoneNumber?.errors?.['pattern']" class="input-error">* Invalid Phone number field</label>
+                <label *ngIf="validPhoneNumber" class="input-error">* Phone number already taken</label>
+            </ng-container>
+        </div>
+        <div id="descriptionGroup" class="custom-default-card-group">
+            <input type="text" formControlName="description"/>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label class="input-placeholder">Description</label>
+        </div>
+        <div id="taglineGroup" class="custom-default-card-group">
+            <input type="text" formControlName="tagline"/>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label class="input-placeholder">Tagline</label>
+        </div>
+        <div id="locationGroup" class="custom-default-card-group">
+            <input type="text" formControlName="location"/>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label class="input-placeholder">Location</label>
+        </div>
+        <div id="workTimeGroup" class="custom-time-card-group">
+            <p>Work times:</p>
+
+            <div class="time-groups">
+                <div class="time-group">
+                    <label>Start</label>
+                    <input type="time" class="form-control" formControlName="startWorkTime"/>
+                </div>
+                
+                <div class="time-group">
+                    <label>End</label>
+                    <input type="time" class="form-control" formControlName="endWorkTime"/>
+                </div>
+            </div>
+        </div>
+        <div id="workDaysGroup" class="custom-days-card-group">
+            <p>Work days:</p>
+
+            <div class="day-groups">
+                <div class="day-group">
+                    <input id="chk_mon" type="checkbox" formControlName="mon" value="Mon">
+                    <label for="chk_mon">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      Mon
+                    </label>
+                </div>
+                
+                <div class="day-group">
+                    <input id="chk_tue" type="checkbox" formControlName="tue" value="Tue">
+                    <label for="chk_tue">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      Tue
+                    </label>
+                </div>
+
+                <div class="day-group">
+                    <input id="chk_wed" type="checkbox" formControlName="wed" value="Wed">
+                    <label for="chk_wed">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      Wen
+                    </label>
+                </div>
+
+                <div class="day-group">
+                    <input id="chk_thu" type="checkbox" formControlName="thu" value="Thu">
+                    <label for="chk_thu">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      Thu
+                    </label>
+                </div>
+
+                <div class="day-group">
+                    <input id="chk_fri" type="checkbox" formControlName="fri" value="Fri">
+                    <label for="chk_fri">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      Fri
+                    </label>
+                </div>
+
+                <div class="day-group">
+                    <input id="chk_sat" type="checkbox" formControlName="sat" value="Sat">
+                    <label for="chk_sat">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      Sat
+                    </label>
+                </div>
+
+                <div class="day-group">
+                    <input id="chk_sun" type="checkbox" formControlName="sun" value="Sun">
+                    <label for="chk_sun">
+                      <svg><use xlink:href="#checkmark" /></svg>      
+                      Sun
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button class="custom-card-button" type="submit">Update</button>
+    </form>
+</div>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+    <symbol id="checkmark" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-miterlimit="10" fill="none"  d="M22.9 3.7l-15.2 16.6-6.6-7.1">
+      </path>
+    </symbol>
+</svg>

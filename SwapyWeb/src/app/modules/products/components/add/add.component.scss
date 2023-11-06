@@ -1,0 +1,396 @@
+@import "/src/colors.scss";
+
+::ng-deep.product-add-wrapper{
+    min-height: calc(100% - 10rem);
+    display: flex;
+    align-items: center;
+    padding-bottom: 5rem;
+    justify-content: center;
+    margin: 4rem 4rem;
+    max-width: 100%;
+
+    @media (max-width: 1600px) { margin: 3rem 3rem; }
+    @media (max-width: 1280px) { margin: 2rem 2rem; }
+    @media (max-width: 400px) { margin: 0.8rem 0.8rem; }
+
+    .product-add-box{
+        background-color: $scroll-white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        min-height: 100%;
+        width: auto;
+
+        .product-add-box-wrappers-container{
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr auto auto;
+
+            .product-add-box-wrappers-container-section{
+                display: flex;
+                flex-direction: column;
+                border-bottom: 2px solid #b6b6b6;
+
+                &:last-of-type {
+                    border-bottom: none;
+                }
+
+                .product-add-box-wrapper{
+                    display: grid;
+                    grid-template-columns: auto 1fr;
+                    align-items: start;
+                    margin: 2rem;
+                    gap: 1.5rem 1.5rem;
+
+                    @media (max-width: 560px) {
+                        margin: 1.2rem;
+                        grid-template-columns: 1fr; 
+                    }
+                    
+                    .images-input{
+                        max-width: 38rem;
+
+                        ngx-dropzone{
+                            display: flex;
+                            flex-wrap: wrap;
+                            height: unset;
+
+                            ngx-dropzone-image-preview{
+                                img{
+                                    height: 140px;
+                                    max-width: 180px;
+                                    object-fit: cover;
+                                    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+                                }
+                            }
+                        }
+                    }
+
+                    .information-title{
+                        font-size: 1.4rem;
+                        font-weight: 500;
+                        margin-bottom: 0;
+                        text-align: start;
+
+                        @media (max-width: 600px) {
+                            font-size: 1.2rem;
+                        }
+                    }
+        
+                    .select-container{
+                        display: flex;
+                        flex-direction: column;
+        
+                        .select-filter{
+                            border-color: $secondary;
+                            margin-bottom: 0.5rem;
+                            width: -webkit-fill-available;
+
+                            @media (max-width: 600px) {
+                                font-size: 0.8rem;
+                            }
+        
+                            &:focus {
+                                border-color: $primary;
+                                box-shadow: 0 0 0 0.2rem rgba($secondary, 0.75);
+                            }
+                        }
+        
+                        .select-filter:last-child {
+                            margin-bottom: 0;
+                        }
+                    }
+        
+                    .radio-groups {
+                        display: flex;
+                        justify-content: space-evenly;
+                        margin: 0.5rem;
+                        user-select: none;
+                        width: fit-content;
+        
+                        .radio-group {
+                            display: flex;
+                            margin-right: 2rem;
+                            align-items: center;
+
+                            @media (max-width: 600px) {
+                                font-size: 0.8rem;
+                            }
+                            
+                            label { cursor: pointer; }
+        
+                            input[type="radio"] {
+                                display: grid;
+                                width: 1.15em;
+                                height: 1.15em;
+                                cursor: pointer;
+                                appearance: none;
+                                border-radius: 50%;
+                                margin-right: 0.4rem;
+                                place-content: center;
+                                -webkit-appearance: none;
+                                border: 1px solid currentColor;
+                                transform: translateY(-0.075em);
+                            }
+        
+                            input[type="radio"]::before {
+                                content: "";
+                                width: 0.65em;
+                                height: 0.65em;
+                                border-radius: 50%;
+                                transform: scale(0);
+                                background-color: $primary;
+                                transition: 120ms transform ease-in-out;
+                                box-shadow: inset 1em 1em var(--form-control-color);
+                            }
+                              
+                            input[type="radio"]:checked::before { transform: scale(1); }
+                        }
+        
+                    }
+                    
+                    .textarea-label{
+                        display: flex;
+                        align-items: center;
+                        width: 100%;
+                        background-color: $white;
+                        border: 1px solid #b6b6b6;
+                        border-radius: 5px;
+                        height: auto;
+                        font-size: 1rem;
+                        padding: 0.325rem 0.325rem;
+
+                        @media (max-width: 600px) {
+                            font-size: 0.8rem;
+                        }
+        
+                        .input-label-text{
+                            font-weight: 500;
+                            color: #808080;
+                        }
+        
+                        textarea{
+                            width: 100%;
+                            min-height: 3em;
+                            border: none;
+                            background: transparent;
+                            color: $black;
+                            outline: none;
+                            margin: 0 5px;
+                            -moz-appearance: textfield;
+                            appearance: textfield;
+                            &::-webkit-inner-spin-button,
+                            &::-webkit-outer-spin-button {
+                            appearance: none;
+                            margin: 0;
+                            }
+                        }
+                    }
+
+                    .input-label{
+                        display: flex;
+                        align-items: center;
+                        width: 100%;
+                        background-color: $white;
+                        border: 1px solid #b6b6b6;
+                        border-radius: 5px;
+                        height: auto;
+                        font-size: 1rem;
+                        padding: 0.325rem 0.6rem;
+
+                        @media (max-width: 600px) {
+                            font-size: 0.8rem;
+                        }
+        
+                        .input-label-text{
+                            font-weight: 500;
+                            color: #808080;
+                        }
+        
+                        input{
+                            width: 100%;
+                            border: none;
+                            background: transparent;
+                            color: $black;
+                            margin: 0 5px;
+                        }
+                        
+                        input[type="number"] {
+                            -moz-appearance: textfield;
+                            appearance: textfield;
+                            &::-webkit-inner-spin-button,
+                            &::-webkit-outer-spin-button {
+                            appearance: none;
+                            margin: 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .product-add-box-wrappers-container-error{
+                grid-column: 1 / span 1;
+                padding: 0.8rem;
+                color: $invalid-red;
+                font-weight: 400;
+                font-size: 1rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                @media (max-width: 600px) {
+                    font-size: 0.8rem;
+                }
+
+                p{
+                    margin: 0;
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
+                    white-space: normal;
+                }
+            }
+
+            .product-add-box-wrappers-container-buttons{
+                grid-column: 1 / span 1;
+                padding: 2rem;
+                font-size: 1.4rem;
+                display: flex;
+                justify-content: space-around;
+
+                @media (max-width: 560px) {
+                    padding: 1.2rem;
+                    font-size: 1.2rem;
+                }
+
+                @media (max-width: 320px) {
+                    font-size: 1rem;
+                }
+
+                button{
+                    background-color: $primary;
+                    color: $additional;
+                    padding: 0.5rem;
+                    width: 15rem;
+                    border-radius: 5px;
+                    border: none;
+                    font-weight: 500;
+
+                    @media (max-width: 660px) {
+                        width: 10rem;
+                    }
+                    @media (max-width: 560px) {
+                        padding: 0.3rem;
+                        width: 6rem;
+                    }
+                    @media (max-width: 320px) {
+                        width: 5rem;
+                    }
+    
+
+                    &:hover{
+                        background-color: lighten($primary, 5%);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.success-notification-window {
+    height: 100%;
+    display: flex;
+    user-select: none;
+    align-items: center;
+    justify-content: center;
+
+    $width: 100%;
+    $trans-time: 300ms;
+    
+    .custom-card {
+        width: 35rem;
+        background-color: $additional;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        
+        @media (max-width: 580px) {
+            margin-top: 1rem; 
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+
+        .custom-card-body {
+            display: flex;
+            margin: 0 2rem;
+            align-items: center;
+            flex-direction: column;
+            
+            .custom-card-title { 
+                margin: 1rem 0; 
+                color: $primary; 
+                text-align: center;
+
+                @media (max-width: 286px) {
+                    margin-top: 0.5rem;
+                    margin-bottom: 1rem;
+                    font-size: calc(1.2rem + .9vw);
+                }
+
+                @media (min-width: 2560px) {
+                    margin-top: 0.5rem;
+                    margin-bottom: 1rem;
+                    font-size: calc(1.5rem + .9vw);
+                }
+
+                & > i { font-size: 1.4rem;}
+            }
+
+            .custom-card-subtitle {
+                margin-top: 0; 
+                color: $primary; 
+                text-align: center;
+                margin-bottom: 1rem;
+
+                @media (max-width: 374px) {
+                    font-size: 0.8rem;
+                }
+            }
+
+            .custom-card-button {
+                width: $width;
+                height: 2.6rem;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                color: $primary;
+                font-size: 1.3rem;
+                border-radius: 0.5rem;
+                border: 1px $primary solid;
+                background-color: $secondary;
+                transition: 0.3s;
+
+                @media (hover: hover) { 
+                    &:hover {
+                        color: $additional;
+                        border: 1px $secondary solid;
+                        background-color: $primary;
+                    }
+
+                    &:active { 
+                        color:$additional;
+                        background-color: lighten($primary, 5%) 
+                    }
+                } 
+
+                @media (hover: none) { 
+                    &:active { 
+                        color:$additional;
+                        background-color: lighten($primary, 5%) 
+                    }
+                }
+
+
+                @media(max-width: 395px) { 
+                    height: 2rem;
+                    margin-top: 1rem;
+                    font-size: 1.1rem;
+                }
+            }
+        }
+    }
+}

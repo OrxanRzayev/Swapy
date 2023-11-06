@@ -1,0 +1,58 @@
+<footer class="swapy-footer">
+    <div class="footer-top">
+        <div class="footer-small-section">
+            <a class="footer-small-section-link" href="#">Our Company</a>
+            <a class="footer-small-section-link" href="#">Privacy & Security</a>
+            <a class="footer-small-section-link" href="#">Terms of Use</a>
+            <a class="footer-small-section-link" href="#">Sell on Swapy.com</a>
+        </div>
+        
+        <div class="footer-small-section">
+            <p class="footer-small-section-title">Social media</p>
+            <div class="footer-small-section-socials">
+                <a class="footer-small-section-link" href="https://instagram.com/swapy">
+                    <span><i id="footer-small-sectiom-link-ig" class="fa-brands fa-instagram"></i></span>
+                </a>
+                
+                <a class="footer-small-section-link" href="https://facebook.com/swapy">
+                    <span><i id="footer-small-sectiom-link-fb" class="fa-brands fa-facebook-f"></i></span>
+                </a>
+            
+                <a class="footer-small-section-link" href="https://twitter.com/swapy">
+                    <span><i class="fa-brands fa-twitter"></i></span>
+                </a>
+            </div>
+        </div>
+    
+        <div class="footer-small-section">
+            <p class="footer-small-section-title">Contacts</p>
+            
+            <div class="footer-small-section-info">
+                <span><i class="fa-solid fa-envelope"></i></span>
+                <div class="footer-small-section-info-texts">
+                    <span class="footer-small-section-info-text" (click)="onFooterTextClick($event)">support@swapy.az</span>
+                </div>
+            </div>
+            
+            <div class="footer-small-section-info">
+                <span><i class="fa-solid fa-phone"></i></span>
+                <div class="footer-small-section-info-texts">
+                    <span class="footer-small-section-info-text" (click)="onFooterTextClick($event)">(012) 998 88 88</span>
+                    <span class="footer-small-section-info-text" (click)="onFooterTextClick($event)">(050) 998 88 88</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-bottom-title">© 2023 Swapy</p>
+    </div>
+
+    <div class="footer-toast-container toast-container position-fixed bottom-0 end-0">
+        <div id="footer-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-body footer-toast">
+            <span><i class="fa-regular fa-copy"></i></span>
+            <strong>Copied to clipboard</strong>
+          </div>
+        </div>
+    </div>
+</footer>

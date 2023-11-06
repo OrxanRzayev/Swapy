@@ -1,0 +1,305 @@
+@import "/src/colors.scss";
+
+$width: 100%; 
+$trans-time: 300ms; 
+$checkbox-border: #D1D6EE;
+
+@keyframes draw-checkbox {
+    0% { stroke-dashoffset: 33; }
+    100% { stroke-dashoffset: 0; }
+}
+
+.settings-general {
+    display: flex;
+    user-select: none;
+    align-items: center;
+    border-radius: 1rem;
+    justify-content: center;
+    background-color: $additional;
+
+    .custom-card-body {
+        display: flex;
+        margin: 0 2rem;
+        align-items: center;
+        flex-direction: column;
+        padding: 1rem 2rem 0 2rem;
+        
+        .custom-default-card-group { 
+            width: $width;
+            position: relative; 
+            margin-bottom: 1rem;
+            margin-top: 0.63rem; 
+
+            input[type="text"] {
+                border: none;
+                width: $width;
+                color: $black;
+                display: block;
+                border-radius: 0; 
+                background: none;
+                font-size: 1.05rem;
+                padding: 0.63rem 0.63rem 0.63rem 0.3rem;
+                border-bottom: 1px solid $black;
+                
+                &:focus { outline: none; } 
+                
+                &:focus ~ label, &:valid ~ label { 
+                    top: -0.7rem; 
+                    font-size: 0.8rem; 
+                    color: $black; 
+                } 
+                
+                &:focus ~ .bar:before { width: $width; } 
+            }
+
+            .input-placeholder {
+                left: 0.35rem; 
+                top: 0.60rem; 
+                font-size: 1rem; 
+                position: absolute; 
+                color: $black; 
+                font-weight: normal; 
+                pointer-events: none; 
+                transition: $trans-time ease all; 
+
+                @media (max-width: 302px) {
+                    font-size: 0.9rem; 
+                }
+
+                @media (max-width: 284px) {
+                    font-size: 0.8rem; 
+                }
+            } 
+            
+            .bar { 
+                position: relative; 
+                display: block; 
+                width: $width; 
+                
+                &:before { 
+                    width: 0; 
+                    left: 0%; 
+                    content: ''; 
+                    height: 2px; 
+                    bottom: 0px; 
+                    position: absolute; 
+                    background: $black; 
+                    transition: $trans-time ease all; 
+                } 
+            }
+
+            .input-error {
+                top: -0.7rem; 
+                transition: 0.3s;
+                font-size: 0.8rem; 
+                color: $invalid-red; 
+            }            
+        } 
+        
+        .custom-invalid-card-group {
+            input[type="text"] {
+                color: $invalid-red;
+                border-bottom: 1px solid $invalid-red;
+                
+                &:focus ~ label, &:valid ~ label { color: $invalid-red; }
+            }
+
+            .input-placeholder { color: $invalid-red; }
+            
+            .bar { 
+                &:before {  background: $invalid-red; }
+            }
+
+            .input-error {
+                display: block;
+            }
+        }
+
+        .custom-valid-card-group {
+            input[type="text"] {
+                color: $valid-green;
+                border-bottom: 1px solid $valid-green;
+                
+                &:focus ~ label, &:valid ~ label { color: $valid-green; }
+            }
+
+            .input-placeholder { color: $valid-green; }
+            
+            .bar { 
+                &:before {  background: $valid-green; }
+            }
+
+            .input-error { display: none; }
+        }
+
+        .custom-time-card-group {
+            width: 100%;
+            margin-top: 2rem;
+
+            p {
+                font-size: large;
+            }
+
+            .time-groups {
+                display: flex;
+                margin: 1rem 0;
+                justify-content: space-around;
+
+                .time-group {
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                }
+            }
+
+            @media(max-width: 430px) {
+                p { font-size: 1rem; }
+
+                .time-groups {
+                    flex-direction: column;
+                    
+                    .time-group {
+                        margin-top: 0.5rem;
+                    }
+                }
+            }
+        }
+
+        .custom-days-card-group {
+            width: 100%;
+            margin-top: 2rem;
+            
+            p {
+                font-size: large;
+            }
+            
+            .day-groups {
+                display: flex;
+                margin: 1rem 0;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                
+                .day-group {
+                    margin: 0.6rem;
+                    cursor: pointer;
+
+                    input[type=checkbox] {
+                        border: 0; 
+                        padding: 0; 
+                        width: 1px;
+                        height: 1px; 
+                        margin: -1px; 
+                        overflow: hidden; 
+                        position: absolute; 
+                        clip: rect(0 0 0 0); 
+                    }
+
+                    input:checked + label > svg {
+                        height: 2rem;
+                        animation: draw-checkbox ease-in-out 0.2s forwards;
+                    }
+
+                    label:active::after { background-color: $secondary; }
+                      
+                    label {
+                        color: $black;
+                        cursor: pointer;
+                        line-height: 2rem;
+                        position: relative;
+
+                        &:after {
+                          content: "";
+                          height: 2rem;
+                          width: 2rem;
+                          float: left;
+                          border-radius: 3px;
+                          margin-right: 0.8rem;
+                          border: 2px solid $black;
+                          transition: 0.15s all ease-out;      
+                        }
+                    }
+
+                    svg {
+                        top: 0;
+                        height: 0;
+                        width: 24px;
+                        left: 0.25rem;
+                        stroke: $primary;
+                        stroke-width: 2px;
+                        position: absolute;
+                        stroke-dasharray: 33;
+                    }
+
+                    @media(max-width: 430px) {
+                        margin: 0.5rem;
+
+                        label {
+                            font-size: 1rem;
+                            line-height: 1.4rem;
+
+                            &:after {
+                                content: "";
+                                height: 1.5rem;
+                                width: 1.5rem;
+                                margin-right: 0.4rem;
+                            }
+                        }
+
+                        svg {
+                            width: 20px;
+                            top: -0.2rem;
+                            left: 0.14rem;
+                        }
+                    }
+                }
+            }
+        
+            @media(max-width: 430px) {
+                p { font-size: 1rem; }
+            }
+        }
+
+        .custom-card-button {
+            width: $width;
+            height: 2.6rem;
+            margin: 2rem 0;
+            color: $primary;
+            font-size: 1.3rem;
+            border-radius: 0.5rem;
+            border: 1px $primary solid;
+            background-color: $secondary;
+            transition: 0.3s;
+
+            @media (hover: hover) { 
+                &:hover { 
+                    color: $additional;
+                    border: 1px $secondary solid;
+                    background-color: $primary;
+                } 
+
+                &:active { 
+                    color:$additional;
+                    background-color: lighten($primary, 5%) 
+                }
+            } 
+            
+            @media (hover: none) { 
+                &:active { 
+                    color:$additional;
+                    background-color: lighten($primary, 5%) 
+                }
+            }
+
+            @media(max-width: 395px) { 
+                height: 2rem;
+                margin: 1rem 0;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 799px) { 
+            margin: 0 1rem;
+            padding: 1rem 1rem 0 1rem; 
+        }
+    }
+}

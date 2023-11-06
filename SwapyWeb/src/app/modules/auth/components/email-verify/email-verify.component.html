@@ -1,0 +1,24 @@
+<div class="email-verify-container" *ngIf="emailVerifySuccess">
+    <div class="card custom-card">
+        <div class="card-body custom-card-body">
+            <h3 class="custom-card-title">Email Verification Successful <i class="fa-solid fa-circle-check"></i></h3>
+            <p class="custom-card-subtitle">Thank you for verifying your email address.</p>
+            <p class="custom-card-subtitle">Your email has been successfully verified and your registration is now complete.</p>
+            <p class="custom-card-subtitle">You can now log in to your account and start using our services.</p>
+            <p class="custom-card-subtitle">If you have any questions or need further assistance, please contact our support team.</p>
+            <button class="custom-card-button" type="submit" (click)="backToLogin()">Back to login</button>
+        </div>
+    </div>
+</div>
+
+<div class="email-verify-container" *ngIf="!emailVerifyUnsuccess">
+    <div class="card custom-card">
+        <div class="card-body custom-card-body">
+            <h3 class="custom-card-title">Email Verification Unsuccessful <i class="fa-solid fa-circle-exclamation"></i></h3>
+            <p class="custom-card-subtitle">We are sorry to inform you that the email verification was not successful or the token has expired.</p>
+            <p class="custom-card-subtitle">Your account registration was not completed.</p>
+            <p class="custom-card-subtitle">If you believe this is an error or need further assistance, please contact our support team.</p>
+            <button class="custom-card-button" type="submit" (click)="backToLogin()">Back to login</button>
+        </div>
+    </div>
+</div>
